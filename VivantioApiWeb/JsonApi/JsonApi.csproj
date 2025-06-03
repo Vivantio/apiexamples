@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Vivantio.Samples.JsonApi</RootNamespace>
+    <AssemblyName>Vivantio.Samples.JsonApi</AssemblyName>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <AssemblyTitle>Vivantio.Samples.JsonApi</AssemblyTitle>
+    <Description>Vivantio API Samples JSON API Wrappers</Description>
+    <Company>Vivantio Inc</Company>
+    <Product>Vivantio API Samples</Product>
+    <Copyright>Copyright © Vivantio 2015</Copyright>
+    <AssemblyVersion>1.0.%2a</AssemblyVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DTO\DTO.csproj" />
+  </ItemGroup>
+</Project>

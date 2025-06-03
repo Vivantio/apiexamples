@@ -1,0 +1,126 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Vivantio.Samples.MvcSamplesCore</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SystemWebAdapters.CoreServices" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DTO\DTO.csproj" />
+    <ProjectReference Include="..\JsonApi\JsonApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Content\bootstrap-grid.css" />
+    <None Include="wwwroot\Content\bootstrap-grid.css.map" />
+    <None Include="wwwroot\Content\bootstrap-grid.min.css" />
+    <None Include="wwwroot\Content\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\Content\bootstrap-grid.rtl.css" />
+    <None Include="wwwroot\Content\bootstrap-grid.rtl.css.map" />
+    <None Include="wwwroot\Content\bootstrap-grid.rtl.min.css" />
+    <None Include="wwwroot\Content\bootstrap-grid.rtl.min.css.map" />
+    <None Include="wwwroot\Content\bootstrap-reboot.css" />
+    <None Include="wwwroot\Content\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\Content\bootstrap-reboot.min.css" />
+    <None Include="wwwroot\Content\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\Content\bootstrap-reboot.rtl.css" />
+    <None Include="wwwroot\Content\bootstrap-reboot.rtl.css.map" />
+    <None Include="wwwroot\Content\bootstrap-reboot.rtl.min.css" />
+    <None Include="wwwroot\Content\bootstrap-reboot.rtl.min.css.map" />
+    <None Include="wwwroot\Content\bootstrap-theme.css" />
+    <None Include="wwwroot\Content\bootstrap-theme.css.map" />
+    <None Include="wwwroot\Content\bootstrap-theme.min.css" />
+    <None Include="wwwroot\Content\bootstrap-utilities.css" />
+    <None Include="wwwroot\Content\bootstrap-utilities.css.map" />
+    <None Include="wwwroot\Content\bootstrap-utilities.min.css" />
+    <None Include="wwwroot\Content\bootstrap-utilities.min.css.map" />
+    <None Include="wwwroot\Content\bootstrap-utilities.rtl.css" />
+    <None Include="wwwroot\Content\bootstrap-utilities.rtl.css.map" />
+    <None Include="wwwroot\Content\bootstrap-utilities.rtl.min.css" />
+    <None Include="wwwroot\Content\bootstrap-utilities.rtl.min.css.map" />
+    <None Include="wwwroot\Content\bootstrap.css" />
+    <None Include="wwwroot\Content\bootstrap.css.map" />
+    <None Include="wwwroot\Content\bootstrap.min.css" />
+    <None Include="wwwroot\Content\bootstrap.min.css.map" />
+    <None Include="wwwroot\Content\bootstrap.rtl.css" />
+    <None Include="wwwroot\Content\bootstrap.rtl.css.map" />
+    <None Include="wwwroot\Content\bootstrap.rtl.min.css" />
+    <None Include="wwwroot\Content\bootstrap.rtl.min.css.map" />
+    <None Include="wwwroot\Content\themes\base\accordion.css" />
+    <None Include="wwwroot\Content\themes\base\all.css" />
+    <None Include="wwwroot\Content\themes\base\autocomplete.css" />
+    <None Include="wwwroot\Content\themes\base\base.css" />
+    <None Include="wwwroot\Content\themes\base\button.css" />
+    <None Include="wwwroot\Content\themes\base\core.css" />
+    <None Include="wwwroot\Content\themes\base\datepicker.css" />
+    <None Include="wwwroot\Content\themes\base\dialog.css" />
+    <None Include="wwwroot\Content\themes\base\draggable.css" />
+    <None Include="wwwroot\Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <None Include="wwwroot\Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <None Include="wwwroot\Content\themes\base\jquery-ui.css" />
+    <None Include="wwwroot\Content\themes\base\jquery-ui.min.css" />
+    <None Include="wwwroot\Content\themes\base\menu.css" />
+    <None Include="wwwroot\Content\themes\base\progressbar.css" />
+    <None Include="wwwroot\Content\themes\base\resizable.css" />
+    <None Include="wwwroot\Content\themes\base\selectable.css" />
+    <None Include="wwwroot\Content\themes\base\selectmenu.css" />
+    <None Include="wwwroot\Content\themes\base\slider.css" />
+    <None Include="wwwroot\Content\themes\base\sortable.css" />
+    <None Include="wwwroot\Content\themes\base\spinner.css" />
+    <None Include="wwwroot\Content\themes\base\tabs.css" />
+    <None Include="wwwroot\Content\themes\base\theme.css" />
+    <None Include="wwwroot\Content\themes\base\tooltip.css" />
+    <None Include="wwwroot\Content\vivantio-styles.css" />
+    <None Include="wwwroot\Images\placeholder-400-400.png" />
+    <None Include="wwwroot\Images\spinner.gif" />
+    <None Include="wwwroot\Images\task-board-screenshot.png" />
+    <None Include="wwwroot\Scripts\bootstrap.bundle.js" />
+    <None Include="wwwroot\Scripts\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\Scripts\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\Scripts\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\Scripts\bootstrap.esm.js" />
+    <None Include="wwwroot\Scripts\bootstrap.esm.js.map" />
+    <None Include="wwwroot\Scripts\bootstrap.esm.min.js" />
+    <None Include="wwwroot\Scripts\bootstrap.esm.min.js.map" />
+    <None Include="wwwroot\Scripts\bootstrap.js" />
+    <None Include="wwwroot\Scripts\bootstrap.js.map" />
+    <None Include="wwwroot\Scripts\bootstrap.min.js" />
+    <None Include="wwwroot\Scripts\bootstrap.min.js.map" />
+    <None Include="wwwroot\Scripts\jquery-3.7.1.intellisense.js" />
+    <None Include="wwwroot\Scripts\jquery-3.7.1.js" />
+    <None Include="wwwroot\Scripts\jquery-3.7.1.min.js" />
+    <None Include="wwwroot\Scripts\jquery-3.7.1.min.map" />
+    <None Include="wwwroot\Scripts\jquery-3.7.1.slim.js" />
+    <None Include="wwwroot\Scripts\jquery-3.7.1.slim.min.js" />
+    <None Include="wwwroot\Scripts\jquery-3.7.1.slim.min.map" />
+    <None Include="wwwroot\Scripts\jquery-ui-1-14.1.js" />
+    <None Include="wwwroot\Scripts\jquery-ui-1.14.1.js" />
+    <None Include="wwwroot\Scripts\jquery-ui-1.14.1.min.js" />
+    <None Include="wwwroot\Scripts\knockout-3.5.1.debug.js" />
+    <None Include="wwwroot\Scripts\knockout-3.5.1.js" />
+  </ItemGroup>
+
+</Project>
