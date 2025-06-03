@@ -2,8 +2,8 @@
 
 This is the home for API code samples for Vivantio. We currently have two main Visual Studio solutions:
 
-- `Vivantio.Samples.sln` - an ASP.NET Core 9 MVC full demo application (see the live application [here](https://vivantioapisampleapp.azurewebsites.net/)).
-- `VivantioApiSamples.sln` - a .NET 9 Console Application that demonstrates various data access techniques using `HttpClient`.
+- `VivantioApiWeb.sln` - an ASP.NET Core 9 MVC full demo application (see the live application [here](https://vivantioapisampleapp.azurewebsites.net/)).
+- `VivantioApiConsole.sln` - a .NET 9 Console Application that demonstrates various data access techniques using `HttpClient`.
 
 ## License
 
