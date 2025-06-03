@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <AssemblyTitle>VivantioApi.Model</AssemblyTitle>
+    <Product>VivantioApi.Model</Product>
+    <Copyright>Copyright ©  2020</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.4.14.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.4.14.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0" />
+    <PackageReference Include="Roslynator.Analyzers" Version="4.13.1" />
+  </ItemGroup>
+</Project>

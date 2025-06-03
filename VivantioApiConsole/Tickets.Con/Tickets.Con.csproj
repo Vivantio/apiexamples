@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <AssemblyTitle>Tickets.Con</AssemblyTitle>
+    <Product>Tickets.Con</Product>
+    <Copyright>Copyright ©  2020</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VivantioApi.Data\VivantioApi.Data.csproj" />
+    <ProjectReference Include="..\VivantioApi.Model\VivantioApi.Model.csproj" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <AssemblyTitle>CustomForms.Con</AssemblyTitle>
+    <Product>CustomForms.Con</Product>
+    <Copyright>Copyright ©  2020</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VivantioApi.Data\VivantioApi.Data.csproj" />
+    <ProjectReference Include="..\VivantioApi.Model\VivantioApi.Model.csproj" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Roslynator.Analyzers" Version="4.13.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.4.14.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.4.14.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+</Project>
