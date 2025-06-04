@@ -47,3 +47,22 @@ jobs:
 
       - name: Build
         run: dotnet build VivantioApiWeb/VivantioApiWeb.sln --no-restore --configuration Release
+
+ VivantioApiInteractive:
+    name: Build VivantioApiInteractive
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore
+        run: dotnet restore VivantioApiInteractive/VivantioApiInteractive.sln
+
+      - name: Build
+        run: dotnet build VivantioApiInteractive/VivantioApiInteractive.sln --no-restore --configuration Release
