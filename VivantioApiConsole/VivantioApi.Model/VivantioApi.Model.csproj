@@ -9,8 +9,6 @@
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.4.14.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.4.14.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0" />
     <PackageReference Include="Roslynator.Analyzers" Version="4.13.1" />
   </ItemGroup>
