@@ -29,4 +29,17 @@
         PDF,
         Text
     }
+
+    public enum QueryMode
+    {
+        MatchAll,
+        MatchAny,
+        MatchNone
+    }
+
+    public enum Operator
+    {
+        Equals,
+        DoesNotEqual
+    }
 }

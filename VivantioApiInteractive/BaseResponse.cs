@@ -1,8 +1,7 @@
 ﻿namespace VivantioApiInteractive
 {
-    public class ApiResponse
+    public class BaseResponse
     {
-        public int InsertedItemId { get; set; }
         public bool Successful { get; set; }
         public List<ErrorMessage>? ErrorMessages { get; set; }
         public List<InfoMessage>? InfoMessages { get; set; }

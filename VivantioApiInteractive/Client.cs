@@ -1,5 +1,5 @@
 ﻿using Spectre.Console;
-using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace VivantioApiInteractive
 {
@@ -44,7 +44,8 @@ namespace VivantioApiInteractive
                 ExternalSource = "vivantio-qa-manager",
             };
 
-            await Helper.UpdateItemAsync(client, "Client/Update");
+            //await Helper.UpdateItemAsync(client, "Client/Update");
+            await ApiUtility.SendRequestAsync<BaseResponse, ClientUpdateDto>("Client/Update", client);
 
             AnsiConsole.MarkupLine($"Record was updated");
         }
@@ -65,10 +66,33 @@ namespace VivantioApiInteractive
                 RecordTypeId = 6,
             };
 
-            await Helper.UpdateItemAsync(client, "Client/Insert");
+            await ApiUtility.SendRequestAsync<InsertResponse, ClientInsertDto>("Client/Insert", client);
 
             AnsiConsole.MarkupLine($"Record {indentifier} was inserted");
         }
+
+        public static async Task SelectClients()
+        {
+            var query = new Query();
+            query.Items.Add(new QueryItem
+            {
+                FieldName = "ExternalSource",
+                Op = Operator.Equals,
+                Value = "vivantio-api-examples"
+            });
+
+            var clients = await ApiUtility.SendRequestAsync<SelectResponse<ClientUpdateDto>, SelectRequest>("Client/Select", new SelectRequest
+            {
+                Query = query
+            });
+
+
+            foreach (var client in clients.Results)
+            {
+                Debug.WriteLine($"Client: {client.Name}, ExternalKey: {client.ExternalKey}");
+            }
+        }
+
 
 
         public static async Task ShowMenu()
@@ -92,7 +116,7 @@ namespace VivantioApiInteractive
                         Helper.Pause();
                         break;
                     case "Update":
-                        await UpdateClient();
+                        await SelectClients();
                         Helper.Pause();
                         break;
                     case "Back":

@@ -29,20 +29,6 @@ namespace VivantioApiInteractive
             return response.IsSuccessStatusCode;
         }
 
-        public static async Task<bool> UpdateItemAsync<T>(T item, string apiUrl)
-        {
-            var content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
-            var response = await HttpClientProvider.Client.PostAsync(apiUrl, content);
-            response.EnsureSuccessStatusCode();
-            var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(await response.Content.ReadAsStringAsync());
-
-            if (apiResponse?.ErrorMessages != null && apiResponse.ErrorMessages.Count > 0)
-            {
-                throw new InvalidOperationException(apiResponse.ErrorMessages.First().ToString());
-            }
-            return response.IsSuccessStatusCode;
-        }
-
         public static void Pause()
         {
             AnsiConsole.MarkupLine("[green]Press any key to continue...[/]");

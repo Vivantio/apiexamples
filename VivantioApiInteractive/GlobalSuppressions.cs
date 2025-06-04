@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Style", "IDE0042:Deconstruct variable declaration", Justification = "<Pending>", Scope = "member", Target = "~M:VivantioApiExamples.Program.Main~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Style", "IDE0042:Deconstruct variable declaration", Justification = "<Pending>", Scope = "member", Target = "~M:VivantioApiInteractive.Program.Main~System.Threading.Tasks.Task")]

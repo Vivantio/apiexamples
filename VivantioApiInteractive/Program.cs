@@ -35,7 +35,7 @@ namespace VivantioApiInteractive
             AnsiConsole.WriteLine();
 
             AnsiConsole.Prompt(new TextPrompt<string>("[green]Press Enter to continue...[/]").AllowEmpty());
-            
+
             await ShowMainMenu();
 
         }
