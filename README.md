@@ -1,4 +1,4 @@
-# Vivantio API Samples
+# Vivantio API Samples ![Build Status](https://github.com/Vivantio/apiexamples/actions/workflows/dotnet.yml/badge.svg)
 
 This is the home for API code samples for Vivantio. We currently have two main Visual Studio solutions:
 
