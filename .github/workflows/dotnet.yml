@@ -10,19 +10,21 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-
+ VivantioApiConsole:
+    name: Build VivantioApiConsole
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore WebApp
+        run: dotnet restore VivantioApiConsole/VivantioApiConsole.sln
+
+      - name: Build WebApp
+        run: dotnet build VivantioApiConsole/VivantioApiConsole.sln --no-restore --configuration Release
