@@ -23,8 +23,27 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      - name: Restore WebApp
+      - name: Restore
         run: dotnet restore VivantioApiConsole/VivantioApiConsole.sln
 
-      - name: Build WebApp
+      - name: Build
         run: dotnet build VivantioApiConsole/VivantioApiConsole.sln --no-restore --configuration Release
+ 
+ VivantioApiWeb:
+    name: Build VivantioApiWeb
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore
+        run: dotnet restore VivantioApiWeb/VivantioApiWeb.sln
+
+      - name: Build
+        run: dotnet build VivantioApiWeb/VivantioApiWeb.sln --no-restore --configuration Release
