@@ -8,16 +8,17 @@ namespace VivantioApiInteractive
         {
             ShowFiglet();
 
+            // Check environment variables and connection to API
             if (!Helper.AreEnvVarsSet())
             {
                 ShowEnvironmentSetup();
-                AnsiConsole.Prompt(new TextPrompt<string>("[green]Press Enter to exit...[/]").AllowEmpty());
+                AnsiConsole.Prompt(new TextPrompt<string>(Spectre.ExitMessage).AllowEmpty());
                 return;
             }
             else if (!await Helper.CanConnect())
             {
                 AnsiConsole.MarkupLine("[red]Cannot connect to Vivantio API. Please check your environment variables.[/]");
-                AnsiConsole.Prompt(new TextPrompt<string>("[green]Press Enter to exit...[/]").AllowEmpty());
+                AnsiConsole.Prompt(new TextPrompt<string>(Spectre.ExitMessage).AllowEmpty());
                 return;
             }
 
@@ -34,7 +35,7 @@ namespace VivantioApiInteractive
             }
             AnsiConsole.WriteLine();
 
-            AnsiConsole.Prompt(new TextPrompt<string>("[green]Press Enter to continue...[/]").AllowEmpty());
+            Spectre.EnterToContinue();
 
             await ShowMainMenu();
 
@@ -84,19 +85,19 @@ namespace VivantioApiInteractive
 
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                        .Title("[green]Select a Vivantio Record Type[/]")
+                        .Title("Select a Vivantio Record Type")
                         .PageSize(10)
-                        .AddChoices("[green]Clients[/]", "[green]Callers[/]", "[green]Exit[/]"));
+                        .AddChoices(Spectre.MainMenuClients, Spectre.MainMenuCallers, Spectre.MainMenuExit));
 
-                switch (Helper.StripMarkup(choice))
+                switch (choice)
                 {
-                    case "Clients":
+                    case Spectre.MainMenuClients:
                         await Client.ShowMenu();
                         break;
-                    case "Callers":
+                    case Spectre.MainMenuCallers:
                         //ShowSubmenu();
                         break;
-                    case "Exit":
+                    case Spectre.MainMenuExit:
                         exit = true;
                         break;
                 }

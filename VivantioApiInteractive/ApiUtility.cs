@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Text;
 
 namespace VivantioApiInteractive
@@ -9,6 +10,7 @@ namespace VivantioApiInteractive
         {
             var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
             var response = await HttpClientProvider.Client.PostAsync(path, content);
+            Debug.WriteLine(await response.Content.ReadAsStringAsync());
             return JsonConvert.DeserializeObject<TResponse>(await response.Content.ReadAsStringAsync());
         }
 

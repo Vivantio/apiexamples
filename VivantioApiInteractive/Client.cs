@@ -1,11 +1,10 @@
 ﻿using Spectre.Console;
-using System.Diagnostics;
 
 namespace VivantioApiInteractive
 {
     public class ClientBaseDto
     {
-        public required string Name { get; set; }
+        public string? Name { get; set; }
         public string? WebSite { get; set; }
         public string? Email { get; set; }
         public string? Alert { get; set; }
@@ -28,31 +27,21 @@ namespace VivantioApiInteractive
         public required int StatusId { get; set; }
     }
 
+    public class ClientSelectDto : ClientBaseDto
+    {
+        public int Id { get; set; }
+        public string? Reference { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
+        public bool? Deleted { get; set; }
+        public string? StatusName { get; set; }
+    }
 
     public class Client
     {
-        public static async Task UpdateClient()
-        {
-            var client = new ClientUpdateDto
-            {
-                Id = 74, // Assuming you want to update the client with ID 1
-                Reference = "freda",
-                Name = "Quantum Enterprises",
-                Notes = "Some Text",
-                Alert = "This is an updated alert text new new new.",
-                ExternalKey = "ext-quantumenterprises-ie-1",
-                ExternalSource = "vivantio-qa-manager",
-            };
-
-            //await Helper.UpdateItemAsync(client, "Client/Update");
-            await ApiUtility.SendRequestAsync<BaseResponse, ClientUpdateDto>("Client/Update", client);
-
-            AnsiConsole.MarkupLine($"Record was updated");
-        }
-
         public static async Task InsertClient()
         {
-            var indentifier = $"vae-{Guid.NewGuid()}";
+            var indentifier = $"vai-{Guid.NewGuid()}";
 
             var client = new ClientInsertDto
             {
@@ -61,39 +50,93 @@ namespace VivantioApiInteractive
                 Notes = "Some Text",
                 Alert = "This is an updated alert text new new new.",
                 ExternalKey = indentifier,
-                ExternalSource = "vivantio-api-examples",
+                ExternalSource = Helper.ApplicationName.Replace(" ", "-").ToLower(),
                 StatusId = 65,
                 RecordTypeId = 6,
             };
 
             await ApiUtility.SendRequestAsync<InsertResponse, ClientInsertDto>("Client/Insert", client);
 
-            AnsiConsole.MarkupLine($"Record {indentifier} was inserted");
+            AnsiConsole.MarkupLine($"Record [blue]{indentifier}[/] was inserted");
+
+            Spectre.EnterToContinue();
         }
 
-        public static async Task SelectClients()
+        public static async Task UpdateClient()
         {
+            // Define a query to select clients based on the ExternalSource
             var query = new Query();
             query.Items.Add(new QueryItem
             {
                 FieldName = "ExternalSource",
                 Op = Operator.Equals,
-                Value = "vivantio-api-examples"
+                Value = Helper.ApplicationName.Replace(" ", "-").ToLower()
+            });
+            query.Items.Add(new QueryItem
+            {
+                FieldName = "Deleted",
+                Op = Operator.DoesNotEqual,
+                Value = (int)StatusType.Deleted
             });
 
-            var clients = await ApiUtility.SendRequestAsync<SelectResponse<ClientUpdateDto>, SelectRequest>("Client/Select", new SelectRequest
-            {
-                Query = query
-            });
+            var response = await ApiUtility.SendRequestAsync<SelectResponse<ClientSelectDto>, SelectRequest>("Client/Select", new SelectRequest { Query = query });
+            var clients = response?.Results ?? [];
 
+            // Extract a list of client names for selection
+            var clientNames = clients
+                .Where(c => !string.IsNullOrEmpty(c.Name))
+                .Select(c => c.Name!)
+                .ToList();
 
-            foreach (var client in clients.Results)
+            // If no clients found, display a message and return
+            if (clientNames.Count == 0)
             {
-                Debug.WriteLine($"Client: {client.Name}, ExternalKey: {client.ExternalKey}");
+                AnsiConsole.MarkupLine("[red]No Clients found with the specified criteria.[/]");
+                Spectre.EnterToContinue();
+                return;
             }
+
+            // Display a list of client names for selection
+            var selected = AnsiConsole.Prompt(new SelectionPrompt<string>().Title("Please select a Client:").PageSize(10).AddChoices(clientNames));
+
+            // Prompt for notes text so there is something to update
+            var notesText = AnsiConsole.Prompt(
+                new TextPrompt<string>("Please supply some Notes text for this Client:")
+                .PromptStyle("blue")
+                .AllowEmpty() // Useed to force validation
+                    .Validate(name =>
+                    {
+                        return string.IsNullOrWhiteSpace(name)
+                            ? ValidationResult.Error("[red]Notes cannot be empty[/]")
+                            : ValidationResult.Success();
+                    }));
+
+            var selectedClient = clients.FirstOrDefault(c => c.Name == selected);
+
+            // When performing an update it is critical that all fields with exiisting values are included in the request otherwise they will be overwritten with blank values.
+            if (selectedClient != null) // Ensure selectedClient is not null
+            {
+                var clientToUpdate = new ClientUpdateDto
+                {
+                    Id = selectedClient.Id,
+                    Reference = selectedClient.Reference ?? string.Empty,
+                    Name = selectedClient.Name,
+                    Notes = notesText,
+                    Alert = selectedClient.Alert,
+                    ExternalKey = selectedClient.ExternalKey,
+                    ExternalSource = selectedClient.ExternalSource
+                };
+
+                await ApiUtility.SendRequestAsync<BaseResponse, ClientUpdateDto>("Client/Update", clientToUpdate);
+            }
+            else
+            {
+                AnsiConsole.MarkupLine("[red]Error: Selected client is null.[/]");
+            }
+
+            AnsiConsole.MarkupLine($"Client [blue]{selected}[/] was updated.");
+            Spectre.EnterToContinue();
         }
-
-
 
         public static async Task ShowMenu()
         {
@@ -103,23 +146,20 @@ namespace VivantioApiInteractive
             {
                 AnsiConsole.Clear();
 
-                var choice = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
-                        .Title("[green]Select a Client operation[/]")
+                var choice = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                        .Title("Select a Client operation")
                         .PageSize(5)
-                        .AddChoices("Insert", "Update", "Back"));
+                        .AddChoices(Spectre.SubMenuInsert, Spectre.SubMenuUpdate, Spectre.SubMenuBack));
 
                 switch (choice)
                 {
-                    case "Insert":
+                    case Spectre.SubMenuInsert:
                         await InsertClient();
-                        Helper.Pause();
                         break;
-                    case "Update":
-                        await SelectClients();
-                        Helper.Pause();
+                    case Spectre.SubMenuUpdate:
+                        await UpdateClient();
                         break;
-                    case "Back":
+                    case Spectre.SubMenuBack:
                         backToMain = true;
                         break;
                 }
