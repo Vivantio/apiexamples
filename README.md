@@ -9,7 +9,7 @@ This is the home for API code examples for Vivantio. We currently have two main 
 
 All our API examples are published under the MIT Public License; see [License.txt](https://github.com/Vivantio/apisamples/blob/master/License.txt) for further information.
 
-## Getting Started with the API Samples
+## Getting Started with the API Examples
 
 ### Downloading the Examples
 
