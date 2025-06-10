@@ -63,9 +63,9 @@ namespace VivantioApiInteractive
             new Panel(
                 "[green]Please set API Credential environment variables as shown in Vivantio > Admin > Downloads.[/]\n" +
                 "[green]Using PowerShell for example:[/]\n\n" +
-                "[blue][[System.Environment]]::SetEnvironmentVariable(\"VAE_PLATFORM_URL\", \"<Platform Url>\", \"User\")\n" +
-                "[[System.Environment]]::SetEnvironmentVariable(\"VAE_USERNAME\", \"<Username>\", \"User\")\n" +
-                "[[System.Environment]]::SetEnvironmentVariable(\"VAE_PASSWORD\", \"<Password>\", \"User\")[/]\n\n" +
+                "[blue][[System.Environment]]::SetEnvironmentVariable(\"VIVANTIO_PLATFORM_URL\", \"<Platform Url>\", \"User\")\n" +
+                "[[System.Environment]]::SetEnvironmentVariable(\"VIVANTIO_USERNAME\", \"<Username>\", \"User\")\n" +
+                "[[System.Environment]]::SetEnvironmentVariable(\"VIVANTIO_PASSWORD\", \"<Password>\", \"User\")[/]\n\n" +
                 "[green]Note that you may need to restart Visual Studio for values to be recognised.[/]\n"
             )
             .Border(BoxBorder.Rounded)
