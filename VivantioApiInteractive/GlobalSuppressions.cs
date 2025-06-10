@@ -6,3 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Style", "IDE0042:Deconstruct variable declaration", Justification = "<Pending>", Scope = "member", Target = "~M:VivantioApiInteractive.Program.Main~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Style", "IDE0305:Simplify collection initialization", Justification = "<Pending>", Scope = "member", Target = "~M:VivantioApiInteractive.Client.InsertClient~System.Threading.Tasks.Task")]

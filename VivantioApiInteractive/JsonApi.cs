@@ -1,5 +1,30 @@
 ﻿namespace VivantioApiInteractive
 {
+    public class Response
+    {
+        public bool Successful { get; set; }
+    }
+
+    public class SelectResponse<T> : BaseResponse
+    {
+        public List<T> Results { get; set; }
+
+        public SelectResponse()
+        {
+            Results = [];
+        }
+    }
+
+    public class SelectRequest
+    {
+        public required Query Query { get; set; }
+    }
+
+    public class InsertResponse : BaseResponse
+    {
+        public int InsertedItemId { get; set; }
+    }
+
     public class BaseResponse
     {
         public bool Successful { get; set; }
@@ -32,4 +57,6 @@
             return $"Error Type: {Type}; Message: {Message}; Field: {Field}";
         }
     }
+
+
 }

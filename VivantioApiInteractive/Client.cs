@@ -41,25 +41,83 @@ namespace VivantioApiInteractive
     {
         public static async Task InsertClient()
         {
-            var indentifier = $"vai-{Guid.NewGuid()}";
+            var random = RandomProvider.Instance;
+
+            var companyName = Helper.GetRandomCompanyName(random);
+            var reference = $"{companyName.Replace(" ", "")}-{Helper.GenerateRandomString(2, random)}";
+            var domain = $"{companyName.ToLower().Replace(" ", "").Replace(".", "")}{Helper.GetRandomTopLevelDomain(random)}";
 
             var client = new ClientInsertDto
             {
-                Reference = indentifier,
-                Name = indentifier,
-                Notes = "Some Text",
+                Reference = reference,
+                Name = companyName,
+                WebSite = $"https://www.{domain}",
+                Email = $"info@{domain}",
+                Notes = Helper.GetLoremIpsum(),
                 Alert = "This is an updated alert text new new new.",
-                ExternalKey = indentifier,
-                ExternalSource = Helper.ApplicationName.Replace(" ", "-").ToLower(),
+                ExternalKey = $"ext-{reference}",
+                ExternalSource = Helper.ExternalSource,
                 StatusId = 65,
                 RecordTypeId = 6,
             };
 
-            await ApiUtility.SendRequestAsync<InsertResponse, ClientInsertDto>("Client/Insert", client);
+            int insertedClientId;
 
-            AnsiConsole.MarkupLine($"Record [blue]{indentifier}[/] was inserted");
+            var response = await ApiUtility.SendRequestAsync<InsertResponse, ClientInsertDto>("Client/Insert", client);
 
-            Spectre.EnterToContinue();
+            if (response != null && response.Successful)
+            {
+                insertedClientId = response?.InsertedItemId ?? 0;
+
+                AnsiConsole.MarkupLine($"Client [blue]{reference}[/] was inserted. Adding Attachments...");
+
+                // Add PDF and text attachments to the newly created client
+                await AddClientAttachments(insertedClientId, reference);
+
+                AnsiConsole.MarkupLine($"Attachments for [blue]{reference}[/] were added. Adding Locations...");
+
+                var locationIds = await Location.InsertLocations(insertedClientId);
+
+                AnsiConsole.MarkupLine($"Locations for [blue]{reference}[/] were added. Adding Assets...");
+
+                // Clients can have Assets, so we insert corporate assets and link them to the Client and Locations
+                foreach (var locationId in locationIds)
+                {
+                    var insertedAssetIds = await Asset.InsertCorporateAssets();
+                    await Asset.InsertAssetReleation(insertedAssetIds.ToList(), insertedClientId, SystemAreaId.Client);
+                    await Asset.InsertAssetReleation(insertedAssetIds.ToList(), locationId, SystemAreaId.Location);
+                }
+
+                AnsiConsole.MarkupLine($"Assets for [blue]{reference}[/] were added. Adding Callers...");
+
+                foreach (var locationId in locationIds)
+                {
+                    await Caller.InsertCallers(insertedClientId, domain, locationId);
+                }
+
+                AnsiConsole.MarkupLine($"Callers for [blue]{reference}[/] were added. That's it!");
+                Spectre.EnterToContinue();
+            }
+            else
+            {
+                var errorMessage = response?.ErrorMessages?.FirstOrDefault()?.ToString() ?? "Unknown error";
+                AnsiConsole.MarkupLine($"[red]Error inserting Client: {errorMessage}[/]");
+                Spectre.EnterToContinue();
+            }
+        }
+
+        private static async Task AddClientAttachments(int clientId, string reference)
+        {
+            var identifierText = "a client";
+            var fileContentText = $"This attachment was created for Client {reference}";
+
+            var tasks = new List<Task>
+                {
+                    Attachment.InsertAttachment((int)SystemAreaId.Client, clientId, AttachmentFileType.PDF, identifierText, fileContentText, 2),
+                    Attachment.InsertAttachment((int)SystemAreaId.Client, clientId, AttachmentFileType.Text, identifierText, fileContentText, 2)
+                };
+
+            await Task.WhenAll(tasks);
         }
 
         public static async Task UpdateClient()
@@ -70,7 +128,7 @@ namespace VivantioApiInteractive
             {
                 FieldName = "ExternalSource",
                 Op = Operator.Equals,
-                Value = Helper.ApplicationName.Replace(" ", "-").ToLower()
+                Value = Helper.ExternalSource
             });
             query.Items.Add(new QueryItem
             {
@@ -97,7 +155,7 @@ namespace VivantioApiInteractive
             }
 
             // Display a list of client names for selection
-            var selected = AnsiConsole.Prompt(new SelectionPrompt<string>().Title("Please select a Client:").PageSize(10).AddChoices(clientNames));
+            var selected = AnsiConsole.Prompt(new SelectionPrompt<string>().Title("Please select a Client:").PageSize(20).AddChoices(clientNames));
 
             // Prompt for notes text so there is something to update
             var notesText = AnsiConsole.Prompt(
