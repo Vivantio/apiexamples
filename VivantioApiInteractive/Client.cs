@@ -45,6 +45,7 @@ namespace VivantioApiInteractive
 
             var companyName = Helper.GetRandomCompanyName(random);
             var reference = $"{companyName.Replace(" ", "")}-{Helper.GenerateRandomString(2, random)}";
+            //var reference = "intentional duplicate for testing";
             var domain = $"{companyName.ToLower().Replace(" ", "").Replace(".", "")}{Helper.GetRandomTopLevelDomain(random)}";
 
             var client = new ClientInsertDto

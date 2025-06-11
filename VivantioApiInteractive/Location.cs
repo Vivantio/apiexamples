@@ -50,22 +50,25 @@ namespace VivantioApiInteractive
                 };
 
                 int insertedLocationId;
-                try
+                var response = await ApiUtility.SendRequestAsync<InsertResponse, LocationDto>("Location/Insert", location);
+
+                if (response != null && response.Successful)
                 {
-                    var response = await ApiUtility.SendRequestAsync<InsertResponse, LocationDto>("Location/Insert", location);
                     insertedLocationId = response?.InsertedItemId ?? 0;
+
+                    locationIds.Add(insertedLocationId);
+                    var identifierText = "a location";
+                    var fileContentText = $"This attachment was created for Location {locationName}";
+                    await Attachment.InsertAttachment((int)SystemAreaId.Location, insertedLocationId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
+                    await Attachment.InsertAttachment((int)SystemAreaId.Location, insertedLocationId, AttachmentFileType.Text, identifierText, fileContentText, 2);
+
                 }
-                catch (Exception ex)
+                else
                 {
-                    AnsiConsole.MarkupLine($"[red]Error inserting Location: {ex.Message}[/]");
+                    var errorMessage = response?.ErrorMessages?.FirstOrDefault()?.ToString() ?? "Unknown error";
+                    AnsiConsole.MarkupLine($"[red]Error inserting Location: {errorMessage}[/]");
                     continue; // Abort this iteration and continue with the next
                 }
-
-                locationIds.Add(insertedLocationId);
-                var identifierText = "a location";
-                var fileContentText = $"This attachment was created for Location {locationName}";
-                await Attachment.InsertAttachment((int)SystemAreaId.Location, insertedLocationId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
-                await Attachment.InsertAttachment((int)SystemAreaId.Location, insertedLocationId, AttachmentFileType.Text, identifierText, fileContentText, 2);
             }
             return locationIds.ToArray();
         }

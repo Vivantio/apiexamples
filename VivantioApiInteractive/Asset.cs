@@ -73,6 +73,7 @@ namespace VivantioApiInteractive
             {
                 var personalAsset = personalAssets[i];
                 var serialNumberAssetTag = $"{personalAsset}-{randomBatchIdentifier}-{i + 1}";
+                //var serialNumberAssetTag = "intentional duplicate for testing";
                 var randomMultiplier = random.Next(1, 100);
                 var randomValue = random.Next(1, 10);
                 var warrantyExpiry = randomValue == 1 ? (DateTime?)null : DateTime.Today.AddYears(1 + (i % 3)); // Randomly decide if the attachment is private
@@ -91,22 +92,25 @@ namespace VivantioApiInteractive
                 };
 
                 int insertedAssetId;
-                try
+                var response = await ApiUtility.SendRequestAsync<InsertResponse, AssetDto>("Asset/Insert", asset);
+
+                if (response != null && response.Successful)
                 {
-                    var response = await ApiUtility.SendRequestAsync<InsertResponse, AssetDto>("Asset/Insert", asset);
+
                     insertedAssetId = response?.InsertedItemId ?? 0;
+
+                    assetIds.Add(insertedAssetId);
+                    var identifierText = "an asset";
+                    var fileContentText = $"This attachment was created for Asset Tag {serialNumberAssetTag}";
+                    await Attachment.InsertAttachment((int)SystemAreaId.Asset, insertedAssetId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
+                    await Attachment.InsertAttachment((int)SystemAreaId.Asset, insertedAssetId, AttachmentFileType.Text, identifierText, fileContentText, 2);
                 }
-                catch (Exception ex)
+                else
                 {
-                    AnsiConsole.MarkupLine($"[red]Error inserting Asset: {ex.Message}[/]");
+                    var errorMessage = response?.ErrorMessages?.FirstOrDefault()?.ToString() ?? "Unknown error";
+                    AnsiConsole.MarkupLine($"[red]Error inserting Asset: {errorMessage}[/]");
                     continue; // Abort this iteration and continue with the next
                 }
-
-                assetIds.Add(insertedAssetId);
-                var identifierText = "an asset";
-                var fileContentText = $"This attachment was created for Asset Tag {serialNumberAssetTag}";
-                await Attachment.InsertAttachment((int)SystemAreaId.Asset, insertedAssetId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
-                await Attachment.InsertAttachment((int)SystemAreaId.Asset, insertedAssetId, AttachmentFileType.Text, identifierText, fileContentText, 2);
             }
             return assetIds.ToArray();
         }
@@ -143,25 +147,27 @@ namespace VivantioApiInteractive
                 };
 
                 int insertedAssetId;
-                try
+                var response = await ApiUtility.SendRequestAsync<InsertResponse, AssetDto>("Asset/Insert", asset);
+
+                if (response != null && response.Successful)
                 {
-                    var response = await ApiUtility.SendRequestAsync<InsertResponse, AssetDto>("Asset/Insert", asset);
+
                     insertedAssetId = response?.InsertedItemId ?? 0;
+
+                    assetIds.Add(insertedAssetId);
+                    var identifierText = "an asset";
+                    var fileContentText = $"This attachment was created for Asset Tag {serialNumberAssetTag}";
+                    await Attachment.InsertAttachment((int)SystemAreaId.Asset, insertedAssetId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
+                    await Attachment.InsertAttachment((int)SystemAreaId.Asset, insertedAssetId, AttachmentFileType.Text, identifierText, fileContentText, 2);
                 }
-                catch (Exception ex)
+                else
                 {
-                    AnsiConsole.MarkupLine($"[red]Error inserting Asset: {ex.Message}[/]");
+                    var errorMessage = response?.ErrorMessages?.FirstOrDefault()?.ToString() ?? "Unknown error";
+                    AnsiConsole.MarkupLine($"[red]Error inserting Asset: {errorMessage}[/]");
                     continue; // Abort this iteration and continue with the next
                 }
-
-                assetIds.Add(insertedAssetId);
-                var identifierText = "an asset";
-                var fileContentText = $"This attachment was created for Asset Tag {serialNumberAssetTag}";
-                await Attachment.InsertAttachment((int)SystemAreaId.Asset, insertedAssetId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
-                await Attachment.InsertAttachment((int)SystemAreaId.Asset, insertedAssetId, AttachmentFileType.Text, identifierText, fileContentText, 2);
             }
             return assetIds.ToArray();
         }
     }
-
 }
