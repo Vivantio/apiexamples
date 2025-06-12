@@ -31,13 +31,13 @@ namespace VivantioApiInteractive
 
                 if (attchmentType == AttachmentFileType.PDF)
                 {
-                    filename = $"this is a PDF document for {identifierText} {i}.pdf";
+                    filename = $"This is a PDF document for {identifierText} {i}.pdf";
                     content = CreatePdf(fileContentTextWithDateTime);
                 }
 
                 else if (attchmentType == AttachmentFileType.Text)
                 {
-                    filename = $"this is a text document for {identifierText} {i}.txt";
+                    filename = $"This is a text document for {identifierText} {i}.txt";
                     content = Encoding.UTF8.GetBytes(fileContentTextWithDateTime);
                 }
 

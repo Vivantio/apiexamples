@@ -87,15 +87,15 @@ namespace VivantioApiInteractive
                     new SelectionPrompt<string>()
                         .Title("Select a Vivantio Record Type")
                         .PageSize(10)
-                        .AddChoices(Spectre.MainMenuClients, Spectre.MainMenuCallers, Spectre.MainMenuExit));
+                        .AddChoices(Spectre.MainMenuClients, Spectre.MainMenuTickets, Spectre.MainMenuExit));
 
                 switch (choice)
                 {
                     case Spectre.MainMenuClients:
                         await Client.ShowMenu();
                         break;
-                    case Spectre.MainMenuCallers:
-                        //ShowSubmenu();
+                    case Spectre.MainMenuTickets:
+                        await Ticket.ShowMenu();
                         break;
                     case Spectre.MainMenuExit:
                         exit = true;

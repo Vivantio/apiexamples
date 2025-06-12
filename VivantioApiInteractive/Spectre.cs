@@ -7,7 +7,7 @@ namespace VivantioApiInteractive
         public const string ExitMessage = "Press Enter to exit...";
         public const string ContinueMessage = "Press Enter to continue...";
         public const string MainMenuClients = "Clients";
-        public const string MainMenuCallers = "Callers";
+        public const string MainMenuTickets = "Tickets";
         public const string MainMenuExit = "Exit";
         public const string SubMenuInsert = "Insert";
         public const string SubMenuUpdate = "Update";
