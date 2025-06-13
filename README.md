@@ -3,7 +3,8 @@
 This is the home for API code examples for Vivantio. We currently have two main Visual Studio solutions:
 
 - `VivantioApiWeb.sln` - an ASP.NET Core 9 MVC full demo application (see the live application [here](https://vivantioapisampleapp.azurewebsites.net/)).
-- `VivantioApiConsole.sln` - a .NET 9 Console Application that demonstrates various data access techniques using `HttpClient`.
+- `VivantioApiConsole.sln` - a .NET 9 Console Application that demonstrates using the Entity (Custom Form) and Ticket APIs. Requireds the codebase to be updated with 'seed Id' values.
+- `VivantioApiInteractive.sln` - a .NET 9 Console Application that demonstrates using a wider range of APIs in a more interactive fashion that avoids having to alter the codebase with 'seed Id values'.
 
 ## License
 
