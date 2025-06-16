@@ -123,40 +123,6 @@ namespace VivantioApiInteractive
 
         public static async Task UpdateClient()
         {
-            // Define a query to select clients based on the ExternalSource
-            var query = new Query();
-            query.Items.Add(new QueryItem
-            {
-                FieldName = "ExternalSource",
-                Op = Operator.Equals,
-                Value = Helper.ExternalSource
-            });
-            query.Items.Add(new QueryItem
-            {
-                FieldName = "Deleted",
-                Op = Operator.DoesNotEqual,
-                Value = (int)StatusType.Deleted
-            });
-
-            var response = await ApiUtility.SendRequestAsync<SelectResponse<ClientSelectDto>, SelectRequest>("Client/Select", new SelectRequest { Query = query });
-            var clients = response?.Results ?? [];
-
-            // Extract a list of client names for selection
-            var clientNames = clients
-                .Where(c => !string.IsNullOrEmpty(c.Name))
-                .Select(c => c.Name!)
-                .ToList();
-
-            // If no clients found, display a message and return
-            if (clientNames.Count == 0)
-            {
-                AnsiConsole.MarkupLine("[red]No Clients found with the specified criteria.[/]");
-                Spectre.EnterToContinue();
-                return;
-            }
-
-            // Display a list of client names for selection
-            var selected = AnsiConsole.Prompt(new SelectionPrompt<string>().Title("Please select a Client:").PageSize(20).AddChoices(clientNames));
 
             // Prompt for notes text so there is something to update
             var notesText = AnsiConsole.Prompt(
@@ -170,7 +136,11 @@ namespace VivantioApiInteractive
                             : ValidationResult.Success();
                     }));
 
-            var selectedClient = clients.FirstOrDefault(c => c.Name == selected);
+            // Extract a list of client names for selection
+            var clients = await GetClients();
+
+            var selectedClient = SelectClient(clients);
+
 
             // When performing an update it is critical that all fields with exiisting values are included in the request otherwise they will be overwritten with blank values.
             if (selectedClient != null) // Ensure selectedClient is not null
@@ -187,13 +157,12 @@ namespace VivantioApiInteractive
                 };
 
                 await ApiUtility.SendRequestAsync<BaseResponse, ClientUpdateDto>("Client/Update", clientToUpdate);
+                AnsiConsole.MarkupLine($"Client [blue]{selectedClient.Name}[/] was updated.");
             }
             else
             {
                 AnsiConsole.MarkupLine("[red]Error: Selected client is null.[/]");
             }
-
-            AnsiConsole.MarkupLine($"Client [blue]{selected}[/] was updated.");
             Spectre.EnterToContinue();
         }
 
@@ -223,6 +192,48 @@ namespace VivantioApiInteractive
                         break;
                 }
             }
+        }
+
+        public static async Task<List<ClientSelectDto>> GetClients()
+        {
+            // Define a query to select clients based on the ExternalSource
+            var query = new Query();
+            query.Items.Add(new QueryItem
+            {
+                FieldName = "ExternalSource",
+                Op = Operator.Equals,
+                Value = Helper.ExternalSource
+            });
+            query.Items.Add(new QueryItem
+            {
+                FieldName = "Deleted",
+                Op = Operator.DoesNotEqual,
+                Value = (int)StatusType.Deleted
+            });
+
+            var response = await ApiUtility.SendRequestAsync<SelectResponse<ClientSelectDto>, SelectRequest>("Client/Select", new SelectRequest { Query = query });
+            return response?.Results ?? [];
+        }
+
+        public static ClientSelectDto? SelectClient(List<ClientSelectDto> clients)
+        {
+            var clientNames = clients
+                .Where(c => !string.IsNullOrEmpty(c.Name))
+                .Select(c => c.Name!)
+                .ToList();
+
+            // If no clients found, display a message and return null
+            if (clientNames.Count == 0)
+            {
+                AnsiConsole.MarkupLine("[red]No Clients found with the specified criteria.[/]");
+                Spectre.EnterToContinue();
+                return null; // Return null instead of using 'return;' to satisfy the return type
+            }
+
+            // Display a list of client names for selection
+            var selected = AnsiConsole.Prompt(new SelectionPrompt<string>().Title("Please select a Client:").PageSize(20).AddChoices(clientNames));
+
+            return clients.FirstOrDefault(c => c.Name == selected);
         }
     }
 }

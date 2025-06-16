@@ -6,8 +6,10 @@ namespace VivantioApiInteractive
 
     public class TicketBaseDto
     {
-        public int Id { get; set; }
-        public string? DisplayId { get; set; }
+        public int Id { get; }
+        public string? DisplayId { get; }
+        public int? ClientId { get; set; }
+        public int? CallerId { get; set; }
         public string? Description { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public StatusType? StatusType { get; set; }
@@ -27,10 +29,10 @@ namespace VivantioApiInteractive
 
     public class TicketTypeDto
     {
-        public int Id { get; set; }
-        public string? NamePlural { get; set; }
-        public string? NameSingular { get; set; }
-        public bool Enabled { get; set; }
+        public int Id { get; }
+        public string? NamePlural { get; }
+        public string? NameSingular { get; }
+        public bool Enabled { get; }
     }
 
 
@@ -55,12 +57,30 @@ namespace VivantioApiInteractive
 
         public static async Task InsertTicket()
         {
-            var random = RandomProvider.Instance;
-            var title = $"Ticket-{Helper.GenerateRandomString(5, random)}-{DateTime.Now:yyyyMMddHHmmss}";
+            var title = AnsiConsole.Prompt(
+                new TextPrompt<string>("Please supply a Title for this Ticket:")
+                .PromptStyle("blue")
+                .AllowEmpty() // Useed to force validation
+                    .Validate(name =>
+                    {
+                        return string.IsNullOrWhiteSpace(name)
+                            ? ValidationResult.Error("[red]Title cannot be empty[/]")
+                            : ValidationResult.Success();
+                    }));
+
+
+            // Choose a client for the ticket
+            var clients = await Client.GetClients();
+            var selectedClient = Client.SelectClient(clients);
+
+
+
 
             var ticket = new TicketInsertDto
             {
                 RecordTypeId = 11, // Incidents
+                ClientId = selectedClient?.Id,
+                CallerId = 1,
                 Title = title,
                 Description = Helper.GetLoremIpsum(),
             };
