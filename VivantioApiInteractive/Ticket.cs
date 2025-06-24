@@ -115,13 +115,17 @@ namespace VivantioApiInteractive
             var clients = await Client.GetClients();
             var selectedClient = Client.SelectClient(clients);
 
-
-
+            if (selectedClient == null)
+            {
+                AnsiConsole.MarkupLine("[red]Error: No client was selected. Cannot proceed with ticket creation.[/]");
+                Spectre.EnterToContinue();
+                return;
+            }
 
             var ticket = new TicketInsertDto
             {
                 RecordTypeId = 11, // Incidents
-                ClientId = selectedClient?.Id,
+                ClientId = selectedClient.Id, // Safe to access Id now
                 CallerId = 1,
                 Title = title,
                 Description = Helper.GetLoremIpsum(),
