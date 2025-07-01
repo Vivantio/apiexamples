@@ -124,7 +124,7 @@ namespace VivantioApiInteractive
 
             var ticket = new TicketInsertDto
             {
-                RecordTypeId = 11, // Incident
+                RecordTypeId = 11, // Incidents
                 ClientId = selectedClient.Id,
                 CallerId = 1,
                 Title = title,
