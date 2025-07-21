@@ -2,20 +2,19 @@
 
 namespace VivantioApiInteractive
 {
-    public class CallerDto
+    public record CallerDto
     {
-        public required string Name { get; set; }
-        public string? Phone { get; set; }
-        public string? Email { get; set; }
-        public string? DomainLoginName { get; set; }
-        public required int ClientId { get; set; }
-        public int? LocationId { get; set; }
-        public bool SelfServiceLoginEnabled { get; set; }
-        public string? Notes { get; set; }
-        public string? ExternalKey { get; set; }
-        public string? ExternalSource { get; set; }
-        public required int RecordTypeId { get; set; }
-
+        public required string Name { get; init; }
+        public string? Phone { get; init; }
+        public string? Email { get; init; }
+        public string? DomainLoginName { get; init; }
+        public required int ClientId { get; init; }
+        public int? LocationId { get; init; }
+        public bool SelfServiceLoginEnabled { get; init; }
+        public string? Notes { get; init; }
+        public string? ExternalKey { get; init; }
+        public string? ExternalSource { get; init; }
+        public required int RecordTypeId { get; init; }
     }
     public static class Caller
     {

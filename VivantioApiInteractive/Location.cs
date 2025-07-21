@@ -2,21 +2,21 @@
 
 namespace VivantioApiInteractive
 {
-    public class LocationDto
+    public record LocationDto
     {
-        public required string Name { get; set; }
-        public required int ClientId { get; set; }
-        public string? Address1 { get; set; }
-        public string? Address2 { get; set; }
-        public string? Address3 { get; set; }
-        public string? City { get; set; }
-        public string? County { get; set; }
-        public string? PostCode { get; set; }
-        public string? Country { get; set; }
-        public string? Phone { get; set; }
-        public string? Notes { get; set; }
-        public string? ExternalKey { get; set; }
-        public string? ExternalSource { get; set; }
+        public required string Name { get; init; }
+        public required int ClientId { get; init; }
+        public string? Address1 { get; init; }
+        public string? Address2 { get; init; }
+        public string? Address3 { get; init; }
+        public string? City { get; init; }
+        public string? County { get; init; }
+        public string? PostCode { get; init; }
+        public string? Country { get; init; }
+        public string? Phone { get; init; }
+        public string? Notes { get; init; }
+        public string? ExternalKey { get; init; }
+        public string? ExternalSource { get; init; }
     }
 
     public static class Location

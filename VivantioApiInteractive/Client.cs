@@ -2,39 +2,39 @@
 
 namespace VivantioApiInteractive
 {
-    public class ClientBaseDto
+    public record ClientBaseDto
     {
-        public string? Name { get; set; }
-        public string? WebSite { get; set; }
-        public string? Email { get; set; }
-        public string? Alert { get; set; }
-        public string? ExternalKey { get; set; }
-        public string? ExternalSource { get; set; }
-        public string? Notes { get; set; }
-        public string? EmailSuffix { get; set; }
+        public string? Name { get; init; }
+        public string? WebSite { get; init; }
+        public string? Email { get; init; }
+        public string? Alert { get; init; }
+        public string? ExternalKey { get; init; }
+        public string? ExternalSource { get; init; }
+        public string? Notes { get; init; }
+        public string? EmailSuffix { get; init; }
     }
 
-    public class ClientUpdateDto : ClientBaseDto
+    public record ClientUpdateDto : ClientBaseDto
     {
-        public required int Id { get; set; }
-        public required string Reference { get; set; }
+        public required int Id { get; init; }
+        public required string Reference { get; init; }
     }
 
-    public class ClientInsertDto : ClientBaseDto
+    public record ClientInsertDto : ClientBaseDto
     {
-        public required string Reference { get; set; }
-        public required int RecordTypeId { get; set; }
-        public required int StatusId { get; set; }
+        public required string Reference { get; init; }
+        public required int RecordTypeId { get; init; }
+        public required int StatusId { get; init; }
     }
 
-    public class ClientSelectDto : ClientBaseDto
+    public record ClientSelectDto : ClientBaseDto
     {
-        public int Id { get; set; }
-        public string? Reference { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public DateTime? UpdateDate { get; set; }
-        public bool? Deleted { get; set; }
-        public string? StatusName { get; set; }
+        public int Id { get; init; }
+        public string? Reference { get; init; }
+        public DateTime? CreatedDate { get; init; }
+        public DateTime? UpdateDate { get; init; }
+        public bool? Deleted { get; init; }
+        public string? StatusName { get; init; }
     }
 
     public class Client

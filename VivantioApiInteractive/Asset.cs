@@ -2,37 +2,37 @@
 
 namespace VivantioApiInteractive
 {
-    public class AssetRelationBaseDto
+    public record AssetRelationBaseDto
     {
         // The Asset/AssetRelationInsert endpoint expects EITHER a single ParentItemId OR a list of ParentItemIds
         // otherwise an exception is thrown. Splitting the DTO into a base class and derived classes allows us to handle both cases cleanly.
-        public required List<int> AssetIds { get; set; }
-        public required int ParentSystemArea { get; set; }
-        public string? Notes { get; set; }
+        public required List<int> AssetIds { get; init; }
+        public required int ParentSystemArea { get; init; }
+        public string? Notes { get; init; }
     }
 
-    public class AssetRelationsDto : AssetRelationBaseDto
+    public record AssetRelationsDto : AssetRelationBaseDto
     {
-        public required List<int> ParentItemIds { get; set; }
+        public required List<int> ParentItemIds { get; init; }
     }
 
-    public class AssetRelationDto : AssetRelationBaseDto
+    public record AssetRelationDto : AssetRelationBaseDto
     {
-        public required int ParentItemId { get; set; }
+        public required int ParentItemId { get; init; }
     }
 
-    public class AssetDto
+    public record AssetDto
     {
-        public required string AssetTag { get; set; }
-        public required string SerialNumber { get; set; }
-        public DateTime? PurchaseDate { get; set; }
-        public decimal? PurchasePrice { get; set; }
-        public DateTime? WarrantyExpiry { get; set; }
-        public required int StatusId { get; set; }
-        public string? ExternalKey { get; set; }
-        public string? ExternalSource { get; set; }
-        public string? Notes { get; set; }
-        public required int RecordTypeId { get; set; }
+        public required string AssetTag { get; init; }
+        public required string SerialNumber { get; init; }
+        public DateTime? PurchaseDate { get; init; }
+        public decimal? PurchasePrice { get; init; }
+        public DateTime? WarrantyExpiry { get; init; }
+        public required int StatusId { get; init; }
+        public string? ExternalKey { get; init; }
+        public string? ExternalSource { get; init; }
+        public string? Notes { get; init; }
+        public required int RecordTypeId { get; init; }
     }
 
     public class Asset

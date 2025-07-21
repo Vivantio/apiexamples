@@ -6,14 +6,14 @@ using System.Text;
 
 namespace VivantioApiInteractive
 {
-    public class AttachmentDto
+    public record AttachmentDto
     {
-        public required int SystemArea { get; set; }
-        public required int ParentId { get; set; }
-        public required string FileName { get; set; }
-        public string? Description { get; set; }
-        public required byte[] Content { get; set; }
-        public bool? IsPrivate { get; set; }
+        public required int SystemArea { get; init; }
+        public required int ParentId { get; init; }
+        public required string FileName { get; init; }
+        public string? Description { get; init; }
+        public required byte[] Content { get; init; }
+        public bool? IsPrivate { get; init; }
     }
     public static class Attachment
     {

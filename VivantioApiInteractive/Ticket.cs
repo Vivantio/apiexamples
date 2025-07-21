@@ -4,77 +4,78 @@ using System.Text.Json.Serialization;
 namespace VivantioApiInteractive
 {
 
-    public class TicketBaseDto
+    public record TicketBaseDto
     {
-        public int Id { get;}
-        public DateTime OpenDate { get; set; }
-        public DateTime CloseDate { get; set; }
-        public string? CallerName { get; set; }
-        public int TakenById { get; set; }
-        public int OwnerId { get; set; }
-        public int ThirdPartyId { get; set; }
-        public string? ThirdPartyRef { get; set; }
-        public DateTime ThirdPartyLogDate { get; set; }
-        public int PriorityId { get; set; }
-        public StatusType? StatusType { get; set; }
-        public string? Description { get; set; }
-        public int CategoryId { get; set; }
-        public string? Solution { get; set; }
-        public int LocationId { get; set; }
-        public int LastActionId { get; set; }
-        public string? CallerPhone { get; set; }
-        public string? CallerEmail { get; set; }
-        public int TotalEffort { get; set; }
-        public int LastModifiedById { get; set; }
-        public DateTime LastModifiedDate { get; set; }
-        public int GroupId { get; set; }
-        public int ClientId { get; set; }
-        public int StatusId { get; set; }
-        public int ImpactId { get; set; }
-        public int CallerId { get; set; }
-        public string? PriorityName { get; set; }
-        public string? TakenByName { get; set; }
-        public string? GroupName { get; set; }
-        public string? OwnerName { get; set; }
-        public string? ClientName { get; set; }
-        public string? CategoryLineage { get; set; }
-        public string? StatusName { get; set; }
-        public int WorkflowId { get; set; }
-        public string? DisplayId { get; set; }
-        public bool Resolved { get; set; }
-        public bool IsDeferred { get; set; }
-        public int AssigneeType { get; set; }
-        public int CallOrigin { get; set; }
-        public int AssigneeClientId { get; set; }
-        public int AssigneeCallerId { get; set; }
-        public string? AssigneeExpression { get; set; }
-        public string? AssignedToEmail { get; set; }
-        public int IntelligentAssignmentGroup { get; set; }
-        public bool IntelligentAssignmentExcludeOutOfOffice { get; set; }
-        public string? AssignedToGroupName { get; set; }
-        public string? AssignedToIndividualName { get; set; }
-        public DateTime ResolvedDate { get; set; }
-        public string? AssignedToSummary { get; set; }
-        public string? CCAddressList { get; set; }
-        public string? DescriptionHtml { get; set; }
-        public string? SolutionHtml { get; set; }
-        public bool Deleted { get; set; }
-        public int NextStepId { get; set; }
-        public string? RecordTypeNameSingular { get; set; }
+        public int Id { get; init; }
+        public DateTime OpenDate { get; init; }
+        public DateTime CloseDate { get; init; }
+        public string? CallerName { get; init; }
+        public int TakenById { get; init; }
+        public int OwnerId { get; init; }
+        public int ThirdPartyId { get; init; }
+        public string? ThirdPartyRef { get; init; }
+        public DateTime ThirdPartyLogDate { get; init; }
+        public int PriorityId { get; init; }
+        public StatusType? StatusType { get; init; }
+        public string? Description { get; init; }
+        public int CategoryId { get; init; }
+        public string? Solution { get; init; }
+        public int LocationId { get; init; }
+        public int LastActionId { get; init; }
+        public string? CallerPhone { get; init; }
+        public string? CallerEmail { get; init; }
+        public int TotalEffort { get; init; }
+        public int LastModifiedById { get; init; }
+        public DateTime LastModifiedDate { get; init; }
+        public int GroupId { get; init; }
+        public int ClientId { get; init; }
+        public int StatusId { get; init; }
+        public int ImpactId { get; init; }
+        public int CallerId { get; init; }
+        public string? PriorityName { get; init; }
+        public string? TakenByName { get; init; }
+        public string? GroupName { get; init; }
+        public string? OwnerName { get; init; }
+        public string? ClientName { get; init; }
+        public string? CategoryLineage { get; init; }
+        public string? StatusName { get; init; }
+        public int WorkflowId { get; init; }
+        public string? DisplayId { get; init; }
+        public bool Resolved { get; init; }
+        public bool IsDeferred { get; init; }
+        public int AssigneeType { get; init; }
+        public int CallOrigin { get; init; }
+        public int AssigneeClientId { get; init; }
+        public int AssigneeCallerId { get; init; }
+        public string? AssigneeExpression { get; init; }
+        public string? AssignedToEmail { get; init; }
+        public int IntelligentAssignmentGroup { get; init; }
+        public bool IntelligentAssignmentExcludeOutOfOffice { get; init; }
+        public string? AssignedToGroupName { get; init; }
+        public string? AssignedToIndividualName { get; init; }
+        public DateTime ResolvedDate { get; init; }
+        public string? AssignedToSummary { get; init; }
+        public string? CCAddressList { get; init; }
+        public string? DescriptionHtml { get; init; }
+        public string? SolutionHtml { get; init; }
+        public bool Deleted { get; init; }
+        public int NextStepId { get; init; }
+        public string? RecordTypeNameSingular { get; init; }
     }
 
-    public class TicketInsertDto : TicketBaseDto
+
+    public record TicketInsertDto : TicketBaseDto
     {
-        public required int RecordTypeId { get; set; }
-        public required string Title { get; set; }
+        public required int RecordTypeId { get; init; }
+        public required string Title { get; init; }
     }
 
-    public class TicketTypeDto
+    public record TicketTypeDto
     {
-        public int Id { get; }
-        public string? NamePlural { get; }
-        public string? NameSingular { get; }
-        public bool Enabled { get; }
+        public int Id { get; init; }
+        public string? NamePlural { get; init; }
+        public string? NameSingular { get; init; }
+        public bool Enabled { get; init; }
     }
 
 
