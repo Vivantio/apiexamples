@@ -1,6 +1,6 @@
 ﻿namespace VivantioApiInteractive.Dtos;
 
-public record LocationDto
+internal record LocationDto
 {
     public required string Name { get; init; }
     public required int ClientId { get; init; }

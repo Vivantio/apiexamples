@@ -1,6 +1,6 @@
 ﻿namespace VivantioApiInteractive.Utility;
 
-public static class AppHelper
+internal static class AppHelper
 {
     public const string PlatformUrlEnvVar = "VIVANTIO_PLATFORM_URL";
     public const string UsernameEnvVar = "VIVANTIO_USERNAME";

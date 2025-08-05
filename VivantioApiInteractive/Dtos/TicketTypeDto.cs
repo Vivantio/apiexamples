@@ -1,6 +1,6 @@
 ﻿namespace VivantioApiInteractive.Dtos;
 
-public record TicketTypeDto
+internal record TicketTypeDto
 {
     public int Id { get; init; }
     public string? NamePlural { get; init; }

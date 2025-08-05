@@ -1,5 +1,4 @@
-﻿using VivantioApiInteractive.Utility;
-using Color = Spectre.Console.Color;
+﻿using Color = Spectre.Console.Color;
 
 namespace VivantioApiInteractive;
 
@@ -92,7 +91,7 @@ internal class Program
 
             switch (choice)
             {
-                case SpectreHelper  .MainMenuClients:
+                case SpectreHelper.MainMenuClients:
                     await Client.ShowMenu();
                     break;
                 case SpectreHelper.MainMenuTickets:

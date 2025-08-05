@@ -1,8 +1,6 @@
-﻿using VivantioApiInteractive.Utility;
+﻿namespace VivantioApiInteractive;
 
-namespace VivantioApiInteractive;
-
-public class Asset
+internal class Asset
 {
     public static async Task InsertAssetReleations(List<int> assetIds, List<int> parentItemIds, SystemAreaId systemAreaId)
     {

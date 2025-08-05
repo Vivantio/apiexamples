@@ -1,6 +1,6 @@
 ﻿namespace VivantioApiInteractive.Utility;
 
-public static class SpectreHelper
+internal static class SpectreHelper
 {
     public const string ExitMessage = "Press Enter to exit...";
     public const string ContinueMessage = "Press Enter to continue...";

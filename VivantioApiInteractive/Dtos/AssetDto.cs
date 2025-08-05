@@ -1,6 +1,6 @@
 ﻿namespace VivantioApiInteractive.Dtos;
 
-public record AssetDto
+internal record AssetDto
 {
     public required string AssetTag { get; init; }
     public required string SerialNumber { get; init; }

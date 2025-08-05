@@ -1,6 +1,6 @@
 ﻿namespace VivantioApiInteractive.Dtos;
 
-public record CallerDto
+internal record CallerDto
 {
     public required string Name { get; init; }
     public string? Phone { get; init; }

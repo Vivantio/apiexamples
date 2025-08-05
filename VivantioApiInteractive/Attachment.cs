@@ -1,7 +1,6 @@
-﻿using VivantioApiInteractive.Utility;
+﻿namespace VivantioApiInteractive;
 
-namespace VivantioApiInteractive;
-public static class Attachment
+internal static class Attachment
 {
     public static async Task InsertAttachment(int systemAreaId, int parentId, AttachmentFileType attchmentType, string identifierText, string fileContentText, int numberToInsert)
     {

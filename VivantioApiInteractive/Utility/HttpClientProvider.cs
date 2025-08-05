@@ -1,6 +1,6 @@
 ﻿namespace VivantioApiInteractive.Utility;
 
-public static class HttpClientProvider
+internal static class HttpClientProvider
 {
     private static readonly HttpClient _client;
 

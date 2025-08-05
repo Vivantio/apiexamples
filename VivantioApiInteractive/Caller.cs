@@ -1,7 +1,6 @@
-﻿using VivantioApiInteractive.Utility;
+﻿namespace VivantioApiInteractive;
 
-namespace VivantioApiInteractive;
-public static class Caller
+internal static class Caller
 {
     public static async Task InsertCallers(int clientId, string clientDomain, int locationId, int numberToInsert = 2)
     {

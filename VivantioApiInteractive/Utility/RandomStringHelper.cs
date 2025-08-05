@@ -1,6 +1,6 @@
 ﻿namespace VivantioApiInteractive.Utility;
 
-public class RandomStringHelper
+internal class RandomStringHelper
 {
     public static string GetRandomCompanyName(Random random)
     {
@@ -168,7 +168,7 @@ public class RandomStringHelper
     }
 }
 
-public static class RandomProvider
+internal static class RandomProvider
 {
     private static readonly Random _random = new();
 

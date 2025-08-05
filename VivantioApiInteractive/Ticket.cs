@@ -1,8 +1,6 @@
-﻿using VivantioApiInteractive.Utility;
+﻿namespace VivantioApiInteractive;
 
-namespace VivantioApiInteractive;
-
-public static class Ticket
+internal static class Ticket
 {
     public static async Task ShowTicketTypes()
     {

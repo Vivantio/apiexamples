@@ -1,6 +1,6 @@
 ﻿namespace VivantioApiInteractive.Dtos;
 
-public record AttachmentDto
+internal record AttachmentDto
 {
     public required int SystemArea { get; init; }
     public required int ParentId { get; init; }

@@ -1,8 +1,6 @@
-﻿using VivantioApiInteractive.Utility;
+﻿namespace VivantioApiInteractive.Dtos;
 
-namespace VivantioApiInteractive.Dtos;
-
-public record TicketBaseDto
+internal record TicketBaseDto
 {
     public int Id { get; init; }
     public DateTime OpenDate { get; init; }

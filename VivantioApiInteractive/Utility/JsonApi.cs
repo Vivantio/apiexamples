@@ -1,11 +1,11 @@
 ﻿namespace VivantioApiInteractive.Utility;
 
-public class Response
+internal class Response
 {
     public bool Successful { get; set; }
 }
 
-public class SelectResponse<T> : BaseResponse
+internal class SelectResponse<T> : BaseResponse
 {
     public List<T> Results { get; set; }
 
@@ -15,24 +15,24 @@ public class SelectResponse<T> : BaseResponse
     }
 }
 
-public class SelectRequest
+internal class SelectRequest
 {
     public required Query Query { get; set; }
 }
 
-public class InsertResponse : BaseResponse
+internal class InsertResponse : BaseResponse
 {
     public int InsertedItemId { get; set; }
 }
 
-public class BaseResponse
+internal class BaseResponse
 {
     public bool Successful { get; set; }
     public List<ErrorMessage>? ErrorMessages { get; set; }
     public List<InfoMessage>? InfoMessages { get; set; }
 }
 
-public class InfoMessage
+internal class InfoMessage
 {
     public InfoType Type { get; set; }
 
@@ -46,7 +46,7 @@ public class InfoMessage
     }
 }
 
-public class ErrorMessage
+internal class ErrorMessage
 {
     public ErrorType Type { get; set; }
     public string? Field { get; set; }

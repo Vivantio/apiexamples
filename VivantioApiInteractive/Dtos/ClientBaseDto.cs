@@ -1,6 +1,6 @@
 ﻿namespace VivantioApiInteractive.Dtos;
 
-public record ClientBaseDto
+internal record ClientBaseDto
 {
     public string? Name { get; init; }
     public string? WebSite { get; init; }

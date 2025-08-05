@@ -1,6 +1,6 @@
 ﻿namespace VivantioApiInteractive.Utility;
 
-public class ApiHelper
+internal class ApiHelper
 {
     public static async Task<TResponse?> SendRequestAsync<TResponse, TRequest>(string path, TRequest? request) where TRequest : class
     {

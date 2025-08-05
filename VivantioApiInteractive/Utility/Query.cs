@@ -1,6 +1,6 @@
 ﻿namespace VivantioApiInteractive.Utility;
 
-public class Query
+internal class Query
 {
     [JsonConverter(typeof(StringEnumConverter))]
     public QueryMode Mode { get; set; }
@@ -12,7 +12,7 @@ public class Query
     }
 }
 
-public class QueryItem
+internal class QueryItem
 {
     public required string FieldName { get; set; }
     [JsonConverter(typeof(StringEnumConverter))]

@@ -1,12 +1,12 @@
 ﻿namespace VivantioApiInteractive.Utility;
 
-public enum InfoType
+internal enum InfoType
 {
     Unknown,
     Permission
 }
 
-public enum ErrorType
+internal enum ErrorType
 {
     Unknown,
     FieldMissing,
@@ -15,7 +15,7 @@ public enum ErrorType
     ItemNotValidForAction,
     ItemPermissionDeniedForAction
 }
-public enum SystemAreaId
+internal enum SystemAreaId
 {
     Client = 0,
     Location = 1,
@@ -24,26 +24,26 @@ public enum SystemAreaId
     Asset = 4,
     Article = 5,
 }
-public enum AttachmentFileType
+internal enum AttachmentFileType
 {
     PDF,
     Text
 }
 
-public enum QueryMode
+internal enum QueryMode
 {
     MatchAll,
     MatchAny,
     MatchNone
 }
 
-public enum Operator
+internal enum Operator
 {
     Equals,
     DoesNotEqual
 }
 
-public enum StatusType
+internal enum StatusType
 {
     Open = 1,
     OnHold = 2,

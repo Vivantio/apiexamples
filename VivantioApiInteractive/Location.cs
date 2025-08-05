@@ -1,8 +1,6 @@
-﻿using VivantioApiInteractive.Utility;
+﻿namespace VivantioApiInteractive;
 
-namespace VivantioApiInteractive;
-
-public static class Location
+internal static class Location
 {
     public static async Task<int[]> InsertLocations(int clientId, int numberToInsert = 2)
     {

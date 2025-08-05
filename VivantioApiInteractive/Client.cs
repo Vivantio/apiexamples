@@ -1,8 +1,6 @@
-﻿using VivantioApiInteractive.Utility;
+﻿namespace VivantioApiInteractive;
 
-namespace VivantioApiInteractive;
-
-public class Client
+internal class Client
 {
     public static async Task InsertClient()
     {
@@ -159,7 +157,7 @@ public class Client
         }
     }
 
-    public static async Task<List<ClientSelectDto>> GetClients()
+    internal static async Task<List<ClientSelectDto>> GetClients()
     {
         // Define a query to select clients based on the ExternalSource
         var query = new Query();
@@ -180,7 +178,7 @@ public class Client
         return response?.Results ?? [];
     }
 
-    public static ClientSelectDto? SelectClient(List<ClientSelectDto> clients)
+    internal static ClientSelectDto? SelectClient(List<ClientSelectDto> clients)
     {
         var clientNames = clients
             .Where(c => !string.IsNullOrEmpty(c.Name))
