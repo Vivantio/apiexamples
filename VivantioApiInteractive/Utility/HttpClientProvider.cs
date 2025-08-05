@@ -1,4 +1,4 @@
-﻿namespace VivantioApiInteractive;
+﻿namespace VivantioApiInteractive.Utility;
 
 public static class HttpClientProvider
 {
@@ -8,9 +8,9 @@ public static class HttpClientProvider
     {
         _client = new HttpClient();
 
-        var apiUrl = $"{Environment.GetEnvironmentVariable(Helper.PlatformUrlEnvVar, EnvironmentVariableTarget.User)}api/";
-        var apiLogin = Environment.GetEnvironmentVariable(Helper.UsernameEnvVar, EnvironmentVariableTarget.User);
-        var apiPassword = Environment.GetEnvironmentVariable(Helper.PasswordEnvVar, EnvironmentVariableTarget.User);
+        var apiUrl = $"{Environment.GetEnvironmentVariable(AppHelper.PlatformUrlEnvVar, EnvironmentVariableTarget.User)}api/";
+        var apiLogin = Environment.GetEnvironmentVariable(AppHelper.UsernameEnvVar, EnvironmentVariableTarget.User);
+        var apiPassword = Environment.GetEnvironmentVariable(AppHelper.PasswordEnvVar, EnvironmentVariableTarget.User);
 
         var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes(apiLogin + ":" + apiPassword));
 

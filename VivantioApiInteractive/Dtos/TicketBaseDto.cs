@@ -1,4 +1,6 @@
-﻿namespace VivantioApiInteractive.Dtos;
+﻿using VivantioApiInteractive.Utility;
+
+namespace VivantioApiInteractive.Dtos;
 
 public record TicketBaseDto
 {

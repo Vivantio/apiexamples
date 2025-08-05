@@ -1,4 +1,6 @@
-﻿namespace VivantioApiInteractive;
+﻿using VivantioApiInteractive.Utility;
+
+namespace VivantioApiInteractive;
 
 public static class Location
 {
@@ -8,8 +10,8 @@ public static class Location
         var locationIds = new List<int>();
         for (int i = 1; i < numberToInsert + 1; i++)
         {
-            var randomLocationName = Helper.GetRandomCityName(random);
-            var randomStrig = Helper.GenerateRandomString(2, random);
+            var randomLocationName = RandomStringHelper.GetRandomCityName(random);
+            var randomStrig = RandomStringHelper.GenerateRandomString(2, random);
 
             var locationName = $"{randomLocationName}-{randomStrig}-{i}";
             var location = new LocationDto
@@ -24,14 +26,14 @@ public static class Location
                 PostCode = "PostCode text",
                 Country = "Country text",
                 Phone = "01234 567890",
-                Notes = Helper.GetLoremIpsum(),
+                Notes = RandomStringHelper.GetLoremIpsum(),
                 ExternalKey = $"ext-{locationName}".ToLower(),
-                ExternalSource = Helper.ExternalSource
+                ExternalSource = AppHelper.ExternalSource
 ,
             };
 
             int insertedLocationId;
-            var response = await ApiUtility.SendRequestAsync<InsertResponse, LocationDto>("Location/Insert", location);
+            var response = await ApiHelper.SendRequestAsync<InsertResponse, LocationDto>("Location/Insert", location);
 
             if (response != null && response.Successful)
             {

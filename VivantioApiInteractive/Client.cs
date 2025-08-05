@@ -1,4 +1,6 @@
-﻿namespace VivantioApiInteractive;
+﻿using VivantioApiInteractive.Utility;
+
+namespace VivantioApiInteractive;
 
 public class Client
 {
@@ -6,10 +8,10 @@ public class Client
     {
         var random = RandomProvider.Instance;
 
-        var companyName = Helper.GetRandomCompanyName(random);
-        var reference = $"{companyName.Replace(" ", "")}-{Helper.GenerateRandomString(2, random)}";
+        var companyName = RandomStringHelper.GetRandomCompanyName(random);
+        var reference = $"{companyName.Replace(" ", "")}-{RandomStringHelper.GenerateRandomString(2, random)}";
         //var reference = "intentional duplicate for testing";
-        var domain = $"{companyName.ToLower().Replace(" ", "").Replace(".", "")}{Helper.GetRandomTopLevelDomain(random)}";
+        var domain = $"{companyName.ToLower().Replace(" ", "").Replace(".", "")}{RandomStringHelper.GetRandomTopLevelDomain(random)}";
 
         var client = new ClientInsertDto
         {
@@ -17,17 +19,17 @@ public class Client
             Name = companyName,
             WebSite = $"https://www.{domain}",
             Email = $"info@{domain}",
-            Notes = Helper.GetLoremIpsum(),
+            Notes = RandomStringHelper.GetLoremIpsum(),
             Alert = "This is an updated alert text new new new.",
             ExternalKey = $"ext-{reference}",
-            ExternalSource = Helper.ExternalSource,
+            ExternalSource = AppHelper.ExternalSource,
             StatusId = 65,
             RecordTypeId = 6,
         };
 
         int insertedClientId;
 
-        var response = await ApiUtility.SendRequestAsync<InsertResponse, ClientInsertDto>("Client/Insert", client);
+        var response = await ApiHelper.SendRequestAsync<InsertResponse, ClientInsertDto>("Client/Insert", client);
 
         if (response != null && response.Successful)
         {
@@ -60,13 +62,13 @@ public class Client
             }
 
             AnsiConsole.MarkupLine($"Callers for [blue]{reference}[/] were added. That's it!");
-            Spectre.EnterToContinue();
+            SpectreHelper.EnterToContinue();
         }
         else
         {
             var errorMessage = response?.ErrorMessages?.FirstOrDefault()?.ToString() ?? "Unknown error";
             AnsiConsole.MarkupLine($"[red]Error inserting Client: {errorMessage}[/]");
-            Spectre.EnterToContinue();
+            SpectreHelper.EnterToContinue();
         }
     }
 
@@ -119,14 +121,14 @@ public class Client
                 ExternalSource = selectedClient.ExternalSource
             };
 
-            await ApiUtility.SendRequestAsync<BaseResponse, ClientUpdateDto>("Client/Update", clientToUpdate);
+            await ApiHelper.SendRequestAsync<BaseResponse, ClientUpdateDto>("Client/Update", clientToUpdate);
             AnsiConsole.MarkupLine($"Client [blue]{selectedClient.Name}[/] was updated.");
         }
         else
         {
             AnsiConsole.MarkupLine("[red]Error: Selected client is null.[/]");
         }
-        Spectre.EnterToContinue();
+        SpectreHelper.EnterToContinue();
     }
 
     public static async Task ShowMenu()
@@ -140,17 +142,17 @@ public class Client
             var choice = AnsiConsole.Prompt(new SelectionPrompt<string>()
                     .Title("Select a Client operation")
                     .PageSize(5)
-                    .AddChoices(Spectre.SubMenuInsert, Spectre.SubMenuUpdate, Spectre.SubMenuBack));
+                    .AddChoices(SpectreHelper.SubMenuInsert, SpectreHelper.SubMenuUpdate, SpectreHelper.SubMenuBack));
 
             switch (choice)
             {
-                case Spectre.SubMenuInsert:
+                case SpectreHelper.SubMenuInsert:
                     await InsertClient();
                     break;
-                case Spectre.SubMenuUpdate:
+                case SpectreHelper.SubMenuUpdate:
                     await UpdateClient();
                     break;
-                case Spectre.SubMenuBack:
+                case SpectreHelper.SubMenuBack:
                     backToMain = true;
                     break;
             }
@@ -165,7 +167,7 @@ public class Client
         {
             FieldName = "ExternalSource",
             Op = Operator.Equals,
-            Value = Helper.ExternalSource
+            Value = AppHelper.ExternalSource
         });
         query.Items.Add(new QueryItem
         {
@@ -174,7 +176,7 @@ public class Client
             Value = (int)StatusType.Deleted
         });
 
-        var response = await ApiUtility.SendRequestAsync<SelectResponse<ClientSelectDto>, SelectRequest>("Client/Select", new SelectRequest { Query = query });
+        var response = await ApiHelper.SendRequestAsync<SelectResponse<ClientSelectDto>, SelectRequest>("Client/Select", new SelectRequest { Query = query });
         return response?.Results ?? [];
     }
 
@@ -189,7 +191,7 @@ public class Client
         if (clientNames.Count == 0)
         {
             AnsiConsole.MarkupLine("[red]No Clients found with the specified criteria.[/]");
-            Spectre.EnterToContinue();
+            SpectreHelper.EnterToContinue();
             return null; // Return null instead of using 'return;' to satisfy the return type
         }
 

@@ -1,4 +1,6 @@
-﻿namespace VivantioApiInteractive;
+﻿using VivantioApiInteractive.Utility;
+
+namespace VivantioApiInteractive;
 
 public class Asset
 {
@@ -9,9 +11,9 @@ public class Asset
             AssetIds = assetIds,
             ParentItemIds = parentItemIds,
             ParentSystemArea = (int)systemAreaId,
-            Notes = Helper.GetLoremIpsum()
+            Notes = RandomStringHelper.GetLoremIpsum()
         };
-        await ApiUtility.SendRequestAsync<InsertResponse, AssetRelationsDto>("Asset/AssetRelationInsert", assetRelations);
+        await ApiHelper.SendRequestAsync<InsertResponse, AssetRelationsDto>("Asset/AssetRelationInsert", assetRelations);
     }
 
     public static async Task InsertAssetReleation(List<int> assetIds, int parentItemId, SystemAreaId systemAreaId)
@@ -21,17 +23,17 @@ public class Asset
             AssetIds = assetIds,
             ParentItemId = parentItemId,
             ParentSystemArea = (int)systemAreaId,
-            Notes = Helper.GetLoremIpsum()
+            Notes = RandomStringHelper.GetLoremIpsum()
         };
 
-        await ApiUtility.SendRequestAsync<InsertResponse, AssetRelationDto>("Asset/AssetRelationInsert", assetRelation);
+        await ApiHelper.SendRequestAsync<InsertResponse, AssetRelationDto>("Asset/AssetRelationInsert", assetRelation);
     }
 
     public static async Task<int[]> InsertPersonalAssets()
     {
         var personalAssets = new[] { "Laptop", "Smartphone", "Tablet", "Monitor", "Printer" };
         var random = RandomProvider.Instance;
-        var randomBatchIdentifier = Helper.GenerateRandomAlphaNumeric(4, random);
+        var randomBatchIdentifier = RandomStringHelper.GenerateRandomAlphaNumeric(4, random);
         var assetIds = new List<int>();
 
         for (int i = 0; i < personalAssets.Length; i++)
@@ -52,12 +54,12 @@ public class Asset
                 PurchasePrice = (decimal?)(randomMultiplier * (12.33)),
                 WarrantyExpiry = warrantyExpiry,
                 ExternalKey = $"ext-{serialNumberAssetTag}".ToLower(),
-                ExternalSource = Helper.ExternalSource,
-                Notes = Helper.GetLoremIpsum()
+                ExternalSource = AppHelper.ExternalSource,
+                Notes = RandomStringHelper.GetLoremIpsum()
             };
 
             int insertedAssetId;
-            var response = await ApiUtility.SendRequestAsync<InsertResponse, AssetDto>("Asset/Insert", asset);
+            var response = await ApiHelper.SendRequestAsync<InsertResponse, AssetDto>("Asset/Insert", asset);
 
             if (response != null && response.Successful)
             {
@@ -86,13 +88,13 @@ public class Asset
             throw new ArgumentOutOfRangeException(nameof(numberToInsert), "Number to insert must be positive.");
 
         var random = new Random();
-        var randomBatchIdentifier = Helper.GenerateRandomAlphaNumeric(4, random);
+        var randomBatchIdentifier = RandomStringHelper.GenerateRandomAlphaNumeric(4, random);
 
         var assetIds = new List<int>();
 
         for (int i = 0; i < numberToInsert; i++)
         {
-            var randomAssetName = Helper.GetRandomCorporateAssetName(random);
+            var randomAssetName = RandomStringHelper.GetRandomCorporateAssetName(random);
             var serialNumberAssetTag = $"{randomAssetName}-{randomBatchIdentifier}-{i + 1}";
             var randomMultiplier = random.Next(1, 1000);
             var randomValue = random.Next(1, 10);
@@ -107,12 +109,12 @@ public class Asset
                 PurchasePrice = (decimal?)(randomMultiplier * (1233.33)),
                 WarrantyExpiry = warrantyExpiry,
                 ExternalKey = $"ext-{serialNumberAssetTag}".ToLower(),
-                ExternalSource = Helper.ExternalSource,
-                Notes = Helper.GetLoremIpsum()
+                ExternalSource = AppHelper.ExternalSource,
+                Notes = RandomStringHelper.GetLoremIpsum()
             };
 
             int insertedAssetId;
-            var response = await ApiUtility.SendRequestAsync<InsertResponse, AssetDto>("Asset/Insert", asset);
+            var response = await ApiHelper.SendRequestAsync<InsertResponse, AssetDto>("Asset/Insert", asset);
 
             if (response != null && response.Successful)
             {

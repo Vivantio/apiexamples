@@ -1,10 +1,12 @@
-﻿namespace VivantioApiInteractive;
+﻿using VivantioApiInteractive.Utility;
+
+namespace VivantioApiInteractive;
 
 public static class Ticket
 {
     public static async Task ShowTicketTypes()
     {
-        var response = await ApiUtility.SendRequestAsync<SelectResponse<TicketTypeDto>>("Configuration/TicketTypeSelectAll");
+        var response = await ApiHelper.SendRequestAsync<SelectResponse<TicketTypeDto>>("Configuration/TicketTypeSelectAll");
         var ticketTypes = response?.Results ?? [];
 
         var ticketTypesNames = ticketTypes
@@ -16,7 +18,7 @@ public static class Ticket
         AnsiConsole.WriteLine();
         AnsiConsole.WriteLine("- " + string.Join("\n- ", ticketTypesNames));
         AnsiConsole.WriteLine();
-        Spectre.EnterToContinue();
+        SpectreHelper.EnterToContinue();
     }
 
     public static async Task InsertTicket()
@@ -40,7 +42,7 @@ public static class Ticket
         if (selectedClient == null)
         {
             AnsiConsole.MarkupLine("[red]Error: No client was selected. Cannot proceed with ticket creation.[/]");
-            Spectre.EnterToContinue();
+            SpectreHelper.EnterToContinue();
             return;
         }
 
@@ -50,12 +52,12 @@ public static class Ticket
             ClientId = selectedClient.Id,
             CallerId = 1,
             Title = title,
-            Description = Helper.GetLoremIpsum(),
+            Description = RandomStringHelper.GetLoremIpsum(),
         };
 
         int insertedTicketId;
 
-        var response = await ApiUtility.SendRequestAsync<InsertResponse, TicketInsertDto>("Ticket/Insert", ticket);
+        var response = await ApiHelper.SendRequestAsync<InsertResponse, TicketInsertDto>("Ticket/Insert", ticket);
 
         if (response != null && response.Successful)
         {
@@ -68,13 +70,13 @@ public static class Ticket
 
             AnsiConsole.MarkupLine($"Attachments for [blue]{title}[/] were added.");
 
-            Spectre.EnterToContinue();
+            SpectreHelper.EnterToContinue();
         }
         else
         {
             var errorMessage = response?.ErrorMessages?.FirstOrDefault()?.ToString() ?? "Unknown error";
             AnsiConsole.MarkupLine($"[red]Error inserting Ticket: {errorMessage}[/]");
-            Spectre.EnterToContinue();
+            SpectreHelper.EnterToContinue();
         }
     }
 
@@ -103,20 +105,20 @@ public static class Ticket
             var choice = AnsiConsole.Prompt(new SelectionPrompt<string>()
                     .Title("Select a Ticket operation")
                     .PageSize(5)
-                    .AddChoices("Show Ticket Types", Spectre.SubMenuInsert, Spectre.SubMenuUpdate, Spectre.SubMenuBack));
+                    .AddChoices("Show Ticket Types", SpectreHelper.SubMenuInsert, SpectreHelper.SubMenuUpdate, SpectreHelper.SubMenuBack));
 
             switch (choice)
             {
                 case "Show Ticket Types":
                     await ShowTicketTypes();
                     break;
-                case Spectre.SubMenuInsert:
+                case SpectreHelper.SubMenuInsert:
                     await InsertTicket();
                     break;
-                case Spectre.SubMenuUpdate:
+                case SpectreHelper.SubMenuUpdate:
                     await InsertTicket();
                     break;
-                case Spectre.SubMenuBack:
+                case SpectreHelper.SubMenuBack:
                     backToMain = true;
                     break;
             }

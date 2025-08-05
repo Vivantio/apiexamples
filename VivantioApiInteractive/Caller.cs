@@ -1,4 +1,6 @@
-﻿namespace VivantioApiInteractive;
+﻿using VivantioApiInteractive.Utility;
+
+namespace VivantioApiInteractive;
 public static class Caller
 {
     public static async Task InsertCallers(int clientId, string clientDomain, int locationId, int numberToInsert = 2)
@@ -6,8 +8,8 @@ public static class Caller
         var random = RandomProvider.Instance;
         for (int i = 1; i < numberToInsert + 1; i++)
         {
-            var randomStrig = Helper.GenerateRandomString(1, random);
-            var name = $"{Helper.GetRandomFirstName(random)} {randomStrig.ToUpper()} {Helper.GetRandomLastName(random)}";
+            var randomStrig = RandomStringHelper.GenerateRandomString(1, random);
+            var name = $"{RandomStringHelper.GetRandomFirstName(random)} {randomStrig.ToUpper()} {RandomStringHelper.GetRandomLastName(random)}";
             //var name = "intentional duplicate for testing";
             var email = $"{name.ToLower().Replace(" ", ".")}@{clientDomain}";
 
@@ -20,14 +22,14 @@ public static class Caller
                 ClientId = clientId,
                 LocationId = locationId,
                 SelfServiceLoginEnabled = true,
-                Notes = Helper.GetLoremIpsum(),
+                Notes = RandomStringHelper.GetLoremIpsum(),
                 ExternalKey = $"ext-{email}",
-                ExternalSource = Helper.ExternalSource,
+                ExternalSource = AppHelper.ExternalSource,
                 RecordTypeId = 7,
             };
 
             int insertedCallerId;
-            var response = await ApiUtility.SendRequestAsync<InsertResponse, CallerDto>("Caller/Insert", caller);
+            var response = await ApiHelper.SendRequestAsync<InsertResponse, CallerDto>("Caller/Insert", caller);
 
             if (response != null && response.Successful)
             {

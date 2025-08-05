@@ -1,4 +1,6 @@
-﻿namespace VivantioApiInteractive;
+﻿using VivantioApiInteractive.Utility;
+
+namespace VivantioApiInteractive;
 public static class Attachment
 {
     public static async Task InsertAttachment(int systemAreaId, int parentId, AttachmentFileType attchmentType, string identifierText, string fileContentText, int numberToInsert)
@@ -37,7 +39,7 @@ public static class Attachment
 
             try
             {
-                await ApiUtility.SendRequestAsync<InsertResponse, AttachmentDto>("File/AttachmentUpload", attachment);
+                await ApiHelper.SendRequestAsync<InsertResponse, AttachmentDto>("File/AttachmentUpload", attachment);
             }
             catch (Exception ex)
             {
@@ -62,12 +64,12 @@ public static class Attachment
                 page.Margin(2, Unit.Centimetre);
                 page.DefaultTextStyle(x => x.FontSize(20));
 
-                page.Header().Text($"PDF generated for {Helper.ApplicationName}");
+                page.Header().Text($"PDF generated for {AppHelper.ApplicationName}");
 
                 page.Content().Column(col =>
                 {
                     col.Item().Text(fileContentText);
-                    col.Item().Text(Helper.GetLoremIpsum());
+                    col.Item().Text(RandomStringHelper.GetLoremIpsum());
                 });
 
                 page.Footer().AlignCenter().Text(x =>

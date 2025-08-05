@@ -1,4 +1,4 @@
-﻿namespace VivantioApiInteractive;
+﻿namespace VivantioApiInteractive.Utility;
 
 public enum InfoType
 {

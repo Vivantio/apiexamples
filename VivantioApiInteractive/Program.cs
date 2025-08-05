@@ -1,4 +1,5 @@
-﻿using Color = Spectre.Console.Color;
+﻿using VivantioApiInteractive.Utility;
+using Color = Spectre.Console.Color;
 
 namespace VivantioApiInteractive;
 
@@ -9,23 +10,23 @@ internal class Program
         ShowFiglet();
 
         // Check environment variables and connection to API
-        if (!Helper.AreEnvVarsSet())
+        if (!AppHelper.AreEnvVarsSet())
         {
             ShowEnvironmentSetup();
-            AnsiConsole.Prompt(new TextPrompt<string>(Spectre.ExitMessage).AllowEmpty());
+            AnsiConsole.Prompt(new TextPrompt<string>(SpectreHelper.ExitMessage).AllowEmpty());
             return;
         }
-        else if (!await Helper.CanConnect())
+        else if (!await AppHelper.CanConnect())
         {
             AnsiConsole.MarkupLine("[red]Cannot connect to Vivantio API. Please check your environment variables.[/]");
-            AnsiConsole.Prompt(new TextPrompt<string>(Spectre.ExitMessage).AllowEmpty());
+            AnsiConsole.Prompt(new TextPrompt<string>(SpectreHelper.ExitMessage).AllowEmpty());
             return;
         }
 
         var items = new[]
             {
                 (Name: "Environment variables configured", Checked: true),
-                (Name: $"Successful connection to API at {Helper.GetPlatformUrl()}", Checked: true)
+                (Name: $"Successful connection to API at {AppHelper.GetPlatformUrl()}", Checked: true)
             };
 
         foreach (var item in items)
@@ -35,7 +36,7 @@ internal class Program
         }
         AnsiConsole.WriteLine();
 
-        Spectre.EnterToContinue();
+        SpectreHelper.EnterToContinue();
 
         await ShowMainMenu();
 
@@ -46,12 +47,12 @@ internal class Program
         AnsiConsole.Clear();
 
         // Figlet banner
-        AnsiConsole.Write(new FigletText(Helper.ApplicationName).LeftJustified().Color(Color.Green));
+        AnsiConsole.Write(new FigletText(AppHelper.ApplicationName).LeftJustified().Color(Color.Green));
 
         AnsiConsole.WriteLine();
 
         // Rule (horizontal line)
-        AnsiConsole.Write(new Rule($"[bold green]Welcome to {Helper.ApplicationName}[/]").LeftJustified());
+        AnsiConsole.Write(new Rule($"[bold green]Welcome to {AppHelper.ApplicationName}[/]").LeftJustified());
 
         AnsiConsole.WriteLine();
 
@@ -87,17 +88,17 @@ internal class Program
                 new SelectionPrompt<string>()
                     .Title("Select a Vivantio Record Type")
                     .PageSize(10)
-                    .AddChoices(Spectre.MainMenuClients, Spectre.MainMenuTickets, Spectre.MainMenuExit));
+                    .AddChoices(SpectreHelper.MainMenuClients, SpectreHelper.MainMenuTickets, SpectreHelper.MainMenuExit));
 
             switch (choice)
             {
-                case Spectre.MainMenuClients:
+                case SpectreHelper  .MainMenuClients:
                     await Client.ShowMenu();
                     break;
-                case Spectre.MainMenuTickets:
+                case SpectreHelper.MainMenuTickets:
                     await Ticket.ShowMenu();
                     break;
-                case Spectre.MainMenuExit:
+                case SpectreHelper.MainMenuExit:
                     exit = true;
                     break;
             }
