@@ -1,4 +1,6 @@
-﻿namespace VivantioApiInteractive;
+﻿using Color = Spectre.Console.Color;
+
+namespace VivantioApiInteractive;
 
 internal class Program
 {

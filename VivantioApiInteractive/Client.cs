@@ -1,40 +1,5 @@
 ﻿namespace VivantioApiInteractive;
 
-public record ClientBaseDto
-{
-    public string? Name { get; init; }
-    public string? WebSite { get; init; }
-    public string? Email { get; init; }
-    public string? Alert { get; init; }
-    public string? ExternalKey { get; init; }
-    public string? ExternalSource { get; init; }
-    public string? Notes { get; init; }
-    public string? EmailSuffix { get; init; }
-}
-
-public record ClientUpdateDto : ClientBaseDto
-{
-    public required int Id { get; init; }
-    public required string Reference { get; init; }
-}
-
-public record ClientInsertDto : ClientBaseDto
-{
-    public required string Reference { get; init; }
-    public required int RecordTypeId { get; init; }
-    public required int StatusId { get; init; }
-}
-
-public record ClientSelectDto : ClientBaseDto
-{
-    public int Id { get; init; }
-    public string? Reference { get; init; }
-    public DateTime? CreatedDate { get; init; }
-    public DateTime? UpdateDate { get; init; }
-    public bool? Deleted { get; init; }
-    public string? StatusName { get; init; }
-}
-
 public class Client
 {
     public static async Task InsertClient()

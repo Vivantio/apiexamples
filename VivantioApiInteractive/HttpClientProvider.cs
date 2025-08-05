@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Headers;
-
-namespace VivantioApiInteractive;
+﻿namespace VivantioApiInteractive;
 
 public static class HttpClientProvider
 {

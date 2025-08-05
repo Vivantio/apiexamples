@@ -1,38 +1,5 @@
 ﻿namespace VivantioApiInteractive;
 
-public record AssetRelationBaseDto
-{
-    // The Asset/AssetRelationInsert endpoint expects EITHER a single ParentItemId OR a list of ParentItemIds
-    // otherwise an exception is thrown. Splitting the DTO into a base class and derived classes allows us to handle both cases cleanly.
-    public required List<int> AssetIds { get; init; }
-    public required int ParentSystemArea { get; init; }
-    public string? Notes { get; init; }
-}
-
-public record AssetRelationsDto : AssetRelationBaseDto
-{
-    public required List<int> ParentItemIds { get; init; }
-}
-
-public record AssetRelationDto : AssetRelationBaseDto
-{
-    public required int ParentItemId { get; init; }
-}
-
-public record AssetDto
-{
-    public required string AssetTag { get; init; }
-    public required string SerialNumber { get; init; }
-    public DateTime? PurchaseDate { get; init; }
-    public decimal? PurchasePrice { get; init; }
-    public DateTime? WarrantyExpiry { get; init; }
-    public required int StatusId { get; init; }
-    public string? ExternalKey { get; init; }
-    public string? ExternalSource { get; init; }
-    public string? Notes { get; init; }
-    public required int RecordTypeId { get; init; }
-}
-
 public class Asset
 {
     public static async Task InsertAssetReleations(List<int> assetIds, List<int> parentItemIds, SystemAreaId systemAreaId)
