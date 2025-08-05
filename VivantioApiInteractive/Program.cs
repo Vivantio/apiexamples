@@ -1,6 +1,4 @@
-﻿using Spectre.Console;
-
-namespace VivantioApiInteractive
+﻿namespace VivantioApiInteractive
 {
     internal class Program
     {
@@ -25,7 +23,7 @@ namespace VivantioApiInteractive
             var items = new[]
                 {
                     (Name: "Environment variables configured", Checked: true),
-                    (Name: "Successful connection to API", Checked: true)
+                    (Name: $"Successful connection to API at {Helper.GetPlatformUrl()}", Checked: true)
                 };
 
             foreach (var item in items)

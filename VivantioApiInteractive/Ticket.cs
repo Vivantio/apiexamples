@@ -1,7 +1,4 @@
-﻿using Spectre.Console;
-using System.Text.Json.Serialization;
-
-namespace VivantioApiInteractive
+﻿namespace VivantioApiInteractive
 {
 
     public record TicketBaseDto

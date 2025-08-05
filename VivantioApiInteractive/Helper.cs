@@ -32,6 +32,16 @@
             return response.Successful;
         }
 
+        public static string GetPlatformUrl()
+        {
+            string? platformUrl = Environment.GetEnvironmentVariable(PlatformUrlEnvVar);
+            if (string.IsNullOrWhiteSpace(platformUrl))
+            {
+                throw new InvalidOperationException($"Environment variable '{PlatformUrlEnvVar}' is not set.");
+            }
+            return platformUrl.Substring(0, platformUrl.Length - 1);
+        }
+
         public static string GetRandomCompanyName(Random random)
         {
             var list = new List<string>

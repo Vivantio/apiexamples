@@ -1,6 +1,4 @@
-﻿using Spectre.Console;
-
-namespace VivantioApiInteractive
+﻿namespace VivantioApiInteractive
 {
     public record LocationDto
     {

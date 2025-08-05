@@ -1,8 +1,6 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using Spectre.Console;
-using System.Text;
 
 namespace VivantioApiInteractive
 {

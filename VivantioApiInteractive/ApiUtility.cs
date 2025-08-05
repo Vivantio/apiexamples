@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Diagnostics;
-using System.Text;
-
-namespace VivantioApiInteractive
+﻿namespace VivantioApiInteractive
 {
     public class ApiUtility
     {

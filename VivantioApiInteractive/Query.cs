@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-
-namespace VivantioApiInteractive
+﻿namespace VivantioApiInteractive
 {
     public class Query
     {
