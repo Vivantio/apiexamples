@@ -17,13 +17,13 @@ internal static class Attachment
             if (attchmentType == AttachmentFileType.PDF)
             {
                 filename = $"This is a PDF document for {identifierText} {i}.pdf";
-                content = CreatePdf(fileContentTextWithDateTime);
+                content = CreatePdfFile(fileContentTextWithDateTime);
             }
 
             else if (attchmentType == AttachmentFileType.Text)
             {
                 filename = $"This is a text document for {identifierText} {i}.txt";
-                content = Encoding.UTF8.GetBytes(fileContentTextWithDateTime);
+                content = CreateTextFile(fileContentTextWithDateTime);
             }
 
             var attachment = new AttachmentDto
@@ -49,7 +49,7 @@ internal static class Attachment
     }
 
 
-    public static byte[] CreatePdf(string fileContentText)
+    public static byte[] CreatePdfFile(string fileContentText)
     {
         QuestPDF.Settings.License = LicenseType.Community;
 
@@ -68,6 +68,7 @@ internal static class Attachment
                 page.Content().Column(col =>
                 {
                     col.Item().Text(fileContentText);
+                    col.Item().Text("");
                     col.Item().Text(RandomStringHelper.GetLoremIpsum());
                 });
 
@@ -80,5 +81,11 @@ internal static class Attachment
         }).GeneratePdf(stream);
 
         return stream.ToArray();
+    }
+
+    public static byte[] CreateTextFile(string fileContentText)
+    {
+        var output = fileContentText + Environment.NewLine + Environment.NewLine + RandomStringHelper.GetLoremIpsum();
+        return Encoding.UTF8.GetBytes(output);
     }
 }

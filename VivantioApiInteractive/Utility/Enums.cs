@@ -30,6 +30,12 @@ internal enum AttachmentFileType
     Text
 }
 
+internal enum AttachmentType
+{
+    File = 0,
+    Url = 1,
+}
+
 internal enum QueryMode
 {
     MatchAll,
