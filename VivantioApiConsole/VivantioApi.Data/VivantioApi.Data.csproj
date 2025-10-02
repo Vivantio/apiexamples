@@ -11,7 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\VivantioApi.Model\VivantioApi.Model.csproj" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Roslynator.Analyzers" Version="4.14.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
