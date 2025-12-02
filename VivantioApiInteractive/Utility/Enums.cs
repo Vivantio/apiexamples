@@ -15,7 +15,7 @@ internal enum ErrorType
     ItemNotValidForAction,
     ItemPermissionDeniedForAction
 }
-internal enum SystemAreaId
+internal enum SystemArea
 {
     Client = 0,
     Location = 1,

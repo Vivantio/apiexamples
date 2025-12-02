@@ -2,7 +2,7 @@
 
 internal class Asset
 {
-    public static async Task InsertAssetReleations(List<int> assetIds, List<int> parentItemIds, SystemAreaId systemAreaId)
+    public static async Task InsertAssetReleations(List<int> assetIds, List<int> parentItemIds, SystemArea systemAreaId)
     {
         var assetRelations = new AssetRelationsDto
         {
@@ -14,7 +14,7 @@ internal class Asset
         await ApiHelper.SendRequestAsync<InsertResponse, AssetRelationsDto>("Asset/AssetRelationInsert", assetRelations);
     }
 
-    public static async Task InsertAssetReleation(List<int> assetIds, int parentItemId, SystemAreaId systemAreaId)
+    public static async Task InsertAssetReleation(List<int> assetIds, int parentItemId, SystemArea systemAreaId)
     {
         var assetRelation = new AssetRelationDto
         {
@@ -67,8 +67,8 @@ internal class Asset
                 assetIds.Add(insertedAssetId);
                 var identifierText = "an asset";
                 var fileContentText = $"This attachment was created for Asset Tag {serialNumberAssetTag}";
-                await Attachment.InsertAttachment((int)SystemAreaId.Asset, insertedAssetId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
-                await Attachment.InsertAttachment((int)SystemAreaId.Asset, insertedAssetId, AttachmentFileType.Text, identifierText, fileContentText, 2);
+                await Attachment.InsertAttachment(SystemArea.Asset, insertedAssetId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
+                await Attachment.InsertAttachment(SystemArea.Asset, insertedAssetId, AttachmentFileType.Text, identifierText, fileContentText, 2);
             }
             else
             {
@@ -122,8 +122,8 @@ internal class Asset
                 assetIds.Add(insertedAssetId);
                 var identifierText = "an asset";
                 var fileContentText = $"This attachment was created for Asset Tag {serialNumberAssetTag}";
-                await Attachment.InsertAttachment((int)SystemAreaId.Asset, insertedAssetId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
-                await Attachment.InsertAttachment((int)SystemAreaId.Asset, insertedAssetId, AttachmentFileType.Text, identifierText, fileContentText, 2);
+                await Attachment.InsertAttachment(SystemArea.Asset, insertedAssetId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
+                await Attachment.InsertAttachment(SystemArea.Asset, insertedAssetId, AttachmentFileType.Text, identifierText, fileContentText, 2);
             }
             else
             {

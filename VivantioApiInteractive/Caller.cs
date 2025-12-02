@@ -37,14 +37,14 @@ internal static class Caller
                 // Callers can have attachments
                 var identifierText = "a caller";
                 var fileContentText = $"This attachment was created for Client {name}";
-                await Attachment.InsertAttachment((int)SystemAreaId.Caller, insertedCallerId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
-                await Attachment.InsertAttachment((int)SystemAreaId.Caller, insertedCallerId, AttachmentFileType.Text, identifierText, fileContentText, 2);
+                await Attachment.InsertAttachment(SystemArea.Caller, insertedCallerId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
+                await Attachment.InsertAttachment(SystemArea.Caller, insertedCallerId, AttachmentFileType.Text, identifierText, fileContentText, 2);
 
                 // Callers can have assets but these also belong to the Client and Have a Location, so we insert personal assets and link them to the Client, Caller, and Location
                 var insertedAssetIds = await Asset.InsertPersonalAssets();
-                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), clientId, SystemAreaId.Client);
-                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), insertedCallerId, SystemAreaId.Caller);
-                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), locationId, SystemAreaId.Location);
+                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), clientId, SystemArea.Client);
+                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), insertedCallerId, SystemArea.Caller);
+                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), locationId, SystemArea.Location);
             }
             else
             {

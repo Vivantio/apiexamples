@@ -119,8 +119,8 @@ internal static class Ticket
 
         var tasks = new List<Task>
             {
-                Attachment.InsertAttachment((int)SystemAreaId.Ticket, ticketId, AttachmentFileType.PDF, identifierText, fileContentText, 2),
-                Attachment.InsertAttachment((int)SystemAreaId.Ticket, ticketId, AttachmentFileType.Text, identifierText, fileContentText, 2)
+                Attachment.InsertAttachment(SystemArea.Ticket, ticketId, AttachmentFileType.PDF, identifierText, fileContentText, 2),
+                Attachment.InsertAttachment(SystemArea.Ticket, ticketId, AttachmentFileType.Text, identifierText, fileContentText, 2)
             };
 
         await Task.WhenAll(tasks);

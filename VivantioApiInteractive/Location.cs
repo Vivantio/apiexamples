@@ -40,8 +40,8 @@ internal static class Location
                 locationIds.Add(insertedLocationId);
                 var identifierText = "a location";
                 var fileContentText = $"This attachment was created for Location {locationName}";
-                await Attachment.InsertAttachment((int)SystemAreaId.Location, insertedLocationId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
-                await Attachment.InsertAttachment((int)SystemAreaId.Location, insertedLocationId, AttachmentFileType.Text, identifierText, fileContentText, 2);
+                await Attachment.InsertAttachment(SystemArea.Location, insertedLocationId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
+                await Attachment.InsertAttachment(SystemArea.Location, insertedLocationId, AttachmentFileType.Text, identifierText, fileContentText, 2);
 
             }
             else

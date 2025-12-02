@@ -1,8 +1,12 @@
-﻿namespace VivantioApiInteractive;
+﻿using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+
+namespace VivantioApiInteractive;
 
 internal static class Attachment
 {
-    public static async Task InsertAttachment(int systemAreaId, int parentId, AttachmentFileType attchmentType, string identifierText, string fileContentText, int numberToInsert)
+    public static async Task InsertAttachment(SystemArea systemArea, int parentId, AttachmentFileType attchmentType, string identifierText, string fileContentText, int numberToInsert)
     {
         var fileContentTextWithDateTime = $"{fileContentText} created on {DateTime.Now}";
         var random = RandomProvider.Instance;
@@ -28,7 +32,7 @@ internal static class Attachment
 
             var attachment = new AttachmentDto
             {
-                SystemArea = systemAreaId,
+                SystemArea = (int)systemArea,
                 ParentId = parentId,
                 FileName = filename,
                 Description = filename,

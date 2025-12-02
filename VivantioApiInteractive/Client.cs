@@ -48,8 +48,8 @@ internal class Client
             foreach (var locationId in locationIds)
             {
                 var insertedAssetIds = await Asset.InsertCorporateAssets();
-                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), insertedClientId, SystemAreaId.Client);
-                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), locationId, SystemAreaId.Location);
+                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), insertedClientId, SystemArea.Client);
+                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), locationId, SystemArea.Location);
             }
 
             AnsiConsole.MarkupLine($"Assets for [blue]{reference}[/] were added. Adding Callers...");
@@ -77,8 +77,8 @@ internal class Client
 
         var tasks = new List<Task>
             {
-                Attachment.InsertAttachment((int)SystemAreaId.Client, clientId, AttachmentFileType.PDF, identifierText, fileContentText, 2),
-                Attachment.InsertAttachment((int)SystemAreaId.Client, clientId, AttachmentFileType.Text, identifierText, fileContentText, 2)
+                Attachment.InsertAttachment((int)SystemArea.Client, clientId, AttachmentFileType.PDF, identifierText, fileContentText, 2),
+                Attachment.InsertAttachment((int)SystemArea.Client, clientId, AttachmentFileType.Text, identifierText, fileContentText, 2)
             };
 
         await Task.WhenAll(tasks);
