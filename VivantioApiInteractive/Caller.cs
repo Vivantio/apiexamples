@@ -24,7 +24,7 @@ internal static class Caller
                 Notes = RandomStringHelper.GetLoremIpsum(),
                 ExternalKey = $"ext-{email}",
                 ExternalSource = AppHelper.ExternalSource,
-                RecordTypeId = 7,
+                RecordTypeId = (int)RecordType.Caller,
             };
 
             int insertedCallerId;

@@ -44,7 +44,7 @@ internal class Asset
             var warrantyExpiry = randomValue == 1 ? (DateTime?)null : DateTime.Today.AddYears(1 + (i % 3)); // Randomly decide if the attachment is private
             var asset = new AssetDto
             {
-                RecordTypeId = 5, // 5 is typically the RecordTypeId for Assets
+                RecordTypeId = (int)RecordType.Asset,
                 StatusId = 7, // 7 = In Use
                 SerialNumber = serialNumberAssetTag,
                 AssetTag = serialNumberAssetTag,
@@ -99,7 +99,7 @@ internal class Asset
             var warrantyExpiry = randomValue == 1 ? (DateTime?)null : DateTime.Today.AddYears(1 + (i % 3)); // Randomly decide if the attachment is private
             var asset = new AssetDto
             {
-                RecordTypeId = 5,
+                RecordTypeId = (int)RecordType.Asset,
                 StatusId = 7,
                 SerialNumber = serialNumberAssetTag,
                 AssetTag = serialNumberAssetTag,

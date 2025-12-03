@@ -46,7 +46,7 @@ internal static class Ticket
 
         var ticket = new TicketInsertDto
         {
-            RecordTypeId = 11, // Incidents
+            RecordTypeId = (int)RecordType.Incidents,
             ClientId = selectedClient.Id,
             CallerId = 1,
             Title = title,

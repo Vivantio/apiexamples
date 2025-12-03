@@ -22,7 +22,7 @@ internal class Client
             ExternalKey = $"ext-{reference}",
             ExternalSource = AppHelper.ExternalSource,
             StatusId = 65,
-            RecordTypeId = 6,
+            RecordTypeId = (int)RecordType.Client,
         };
 
         int insertedClientId;

@@ -24,6 +24,15 @@ internal enum SystemArea
     Asset = 4,
     Article = 5,
 }
+internal enum RecordType
+{
+    Asset = 5,
+    Client = 6,
+    Caller = 7,
+    Location = 8,
+    Article = 10,
+    Incidents = 11
+}
 internal enum AttachmentFileType
 {
     PDF,
