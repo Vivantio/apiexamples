@@ -46,7 +46,7 @@ internal static class Ticket
 
         var ticket = new TicketInsertDto
         {
-            RecordTypeId = (int)RecordType.Incidents,
+            RecordTypeId = (int)RecordType.Incident,
             ClientId = selectedClient.Id,
             CallerId = 1,
             Title = title,
@@ -64,7 +64,7 @@ internal static class Ticket
             AnsiConsole.MarkupLine($"Ticket [blue]{ticket.Title}[/] was inserted. Adding Attachments...");
 
             // Add PDF and text attachments to the newly created client
-            await AddTicketAttachments(ticket.Id, ticket.Title);
+            await AddTicketAttachments(insertedTicketId, ticket.Title);
 
             AnsiConsole.MarkupLine($"Attachments for [blue]{ticket.Title}[/] were added. Adding a Note...");
 

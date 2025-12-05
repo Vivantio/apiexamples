@@ -31,7 +31,7 @@ internal enum RecordType
     Caller = 7,
     Location = 8,
     Article = 10,
-    Incidents = 11
+    Incident = 11
 }
 internal enum AttachmentFileType
 {
