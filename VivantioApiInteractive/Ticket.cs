@@ -53,13 +53,11 @@ internal static class Ticket
             Description = RandomStringHelper.GetLoremIpsum(),
         };
 
-        int insertedTicketId;
-
         var response = await ApiHelper.SendRequestAsync<InsertResponse, TicketInsertDto>("Ticket/Insert", ticket);
 
         if (response != null && response.Successful)
         {
-            insertedTicketId = response?.InsertedItemId ?? 0;
+            var insertedTicketId = new TicketId { Value = response.InsertedItemId };
 
             AnsiConsole.MarkupLine($"Ticket [blue]{ticket.Title}[/] was inserted. Adding Attachments...");
 
@@ -68,7 +66,7 @@ internal static class Ticket
 
             AnsiConsole.MarkupLine($"Attachments for [blue]{ticket.Title}[/] were added. Adding a Note...");
 
-            await AddTicketNote((insertedTicketId, ticket.Title), "Note added on Insert of Ticket");
+            await AddNote(insertedTicketId, ticket.Title, "Note added on Insert of Ticket");
 
             SpectreHelper.EnterToContinue();
         }
@@ -102,7 +100,7 @@ internal static class Ticket
 
         if (selectedTicket != null)
         {
-            await AddTicketNote((selectedTicket.Id, selectedTicket.Title), notesText);
+            await AddNote(new TicketId { Value = selectedTicket.Id }, selectedTicket.Title, notesText);
             AnsiConsole.MarkupLine($"Ticket [blue]{selectedTicket.Title}[/] was updated with a Note.");
         }
         else
@@ -112,35 +110,35 @@ internal static class Ticket
         SpectreHelper.EnterToContinue();
     }
 
-    private static async Task AddTicketAttachments(int ticketId, string title)
+    private static async Task AddTicketAttachments(TicketId ticketId, string title)
     {
         var identifierText = "a ticket";
         var fileContentText = $"This attachment was created for Ticket {title}";
 
         var tasks = new List<Task>
             {
-                Attachment.InsertAttachment(SystemArea.Ticket, ticketId, AttachmentFileType.PDF, identifierText, fileContentText, 2),
-                Attachment.InsertAttachment(SystemArea.Ticket, ticketId, AttachmentFileType.Text, identifierText, fileContentText, 2)
+                Attachment.InsertAttachment(SystemArea.Ticket, ticketId.Value, AttachmentFileType.PDF, identifierText, fileContentText, 2),
+                Attachment.InsertAttachment(SystemArea.Ticket, ticketId.Value, AttachmentFileType.Text, identifierText, fileContentText, 2)
             };
 
         await Task.WhenAll(tasks);
     }
 
-    private static async Task AddTicketNote((int Id, string Title) ticketInfo, string notes)
+    private static async Task AddNote(TicketId ticketId, string title, string notes)
     {
-        var pdfAttachmentDescription = $"This is a sample Note PDF attachment for Ticket {ticketInfo.Title} created on {DateTime.Now}";
-        var txtAttachmentDescription = $"This is a sample Note text attachment for Ticket {ticketInfo.Title} created on {DateTime.Now}";
+        var pdfAttachmentDescription = $"This is a sample Note PDF attachment for Ticket {title} created on {DateTime.Now}";
+        var txtAttachmentDescription = $"This is a sample Note text attachment for Ticket {title} created on {DateTime.Now}";
 
         var ticketNoteToAdd = new TicketAddNoteDto
         {
-            AffectedTickets = new List<int> { ticketInfo.Id },
+            AffectedTickets = new List<int> { ticketId.Value },
             Notes = notes,
             Effort = 10,
             Attachments = new List<EmbeddedAttachmentDto>
                 {
                     new EmbeddedAttachmentDto
                     {
-                        Name = $"This is a PDF document for a ticket note for Ticket {ticketInfo.Title}.pdf",
+                        Name = $"This is a PDF document for a ticket note for Ticket {title}.pdf",
                         AttachmentType = AttachmentType.File,
                         Description = pdfAttachmentDescription,
                         Content = Attachment.CreatePdfFile(pdfAttachmentDescription),
@@ -148,7 +146,7 @@ internal static class Ticket
                     },
                     new EmbeddedAttachmentDto
                     {
-                        Name = $"This is a text document for a ticket note for Ticket {ticketInfo.Title}.txt",
+                        Name = $"This is a text document for a ticket note for Ticket {title}.txt",
                         AttachmentType = AttachmentType.File,
                         Description = txtAttachmentDescription,
                         Content = Attachment.CreateTextFile(txtAttachmentDescription)

@@ -2,11 +2,11 @@
 
 internal class Asset
 {
-    public static async Task InsertAssetReleations(List<int> assetIds, List<int> parentItemIds, SystemArea systemAreaId)
+    public static async Task InsertAssetReleations(List<AssetId> assetIds, List<int> parentItemIds, SystemArea systemAreaId)
     {
         var assetRelations = new AssetRelationsDto
         {
-            AssetIds = assetIds,
+            AssetIds = assetIds.Select(x => x.Value).ToList(),
             ParentItemIds = parentItemIds,
             ParentSystemArea = (int)systemAreaId,
             Notes = RandomStringHelper.GetLoremIpsum()
@@ -14,11 +14,11 @@ internal class Asset
         await ApiHelper.SendRequestAsync<InsertResponse, AssetRelationsDto>("Asset/AssetRelationInsert", assetRelations);
     }
 
-    public static async Task InsertAssetReleation(List<int> assetIds, int parentItemId, SystemArea systemAreaId)
+    public static async Task InsertAssetReleation(List<AssetId> assetIds, int parentItemId, SystemArea systemAreaId)
     {
         var assetRelation = new AssetRelationDto
         {
-            AssetIds = assetIds,
+            AssetIds = assetIds.Select(x => x.Value).ToList(),
             ParentItemId = parentItemId,
             ParentSystemArea = (int)systemAreaId,
             Notes = RandomStringHelper.GetLoremIpsum()
@@ -27,12 +27,12 @@ internal class Asset
         await ApiHelper.SendRequestAsync<InsertResponse, AssetRelationDto>("Asset/AssetRelationInsert", assetRelation);
     }
 
-    public static async Task<int[]> InsertPersonalAssets()
+    public static async Task<AssetId[]> InsertPersonalAssets()
     {
         var personalAssets = new[] { "Laptop", "Smartphone", "Tablet", "Monitor", "Printer" };
         var random = RandomProvider.Instance;
         var randomBatchIdentifier = RandomStringHelper.GenerateRandomAlphaNumeric(4, random);
-        var assetIds = new List<int>();
+        var assetIds = new List<AssetId>();
 
         for (int i = 0; i < personalAssets.Length; i++)
         {
@@ -56,19 +56,18 @@ internal class Asset
                 Notes = RandomStringHelper.GetLoremIpsum()
             };
 
-            int insertedAssetId;
             var response = await ApiHelper.SendRequestAsync<InsertResponse, AssetDto>("Asset/Insert", asset);
 
             if (response != null && response.Successful)
             {
 
-                insertedAssetId = response?.InsertedItemId ?? 0;
+                var insertedAssetId = new AssetId { Value = response.InsertedItemId };
 
                 assetIds.Add(insertedAssetId);
                 var identifierText = "an asset";
                 var fileContentText = $"This attachment was created for Asset Tag {serialNumberAssetTag}";
-                await Attachment.InsertAttachment(SystemArea.Asset, insertedAssetId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
-                await Attachment.InsertAttachment(SystemArea.Asset, insertedAssetId, AttachmentFileType.Text, identifierText, fileContentText, 2);
+                await Attachment.InsertAttachment(SystemArea.Asset, insertedAssetId.Value, AttachmentFileType.PDF, identifierText, fileContentText, 2);
+                await Attachment.InsertAttachment(SystemArea.Asset, insertedAssetId.Value, AttachmentFileType.Text, identifierText, fileContentText, 2);
             }
             else
             {
@@ -80,7 +79,7 @@ internal class Asset
         return assetIds.ToArray();
     }
 
-    public static async Task<int[]> InsertCorporateAssets(int numberToInsert = 2)
+    public static async Task<AssetId[]> InsertCorporateAssets(int numberToInsert = 2)
     {
         if (numberToInsert <= 0)
             throw new ArgumentOutOfRangeException(nameof(numberToInsert), "Number to insert must be positive.");
@@ -88,7 +87,7 @@ internal class Asset
         var random = new Random();
         var randomBatchIdentifier = RandomStringHelper.GenerateRandomAlphaNumeric(4, random);
 
-        var assetIds = new List<int>();
+        var assetIds = new List<AssetId>();
 
         for (int i = 0; i < numberToInsert; i++)
         {
@@ -111,19 +110,18 @@ internal class Asset
                 Notes = RandomStringHelper.GetLoremIpsum()
             };
 
-            int insertedAssetId;
             var response = await ApiHelper.SendRequestAsync<InsertResponse, AssetDto>("Asset/Insert", asset);
 
             if (response != null && response.Successful)
             {
 
-                insertedAssetId = response?.InsertedItemId ?? 0;
+                var insertedAssetId = new AssetId { Value = response.InsertedItemId };
 
                 assetIds.Add(insertedAssetId);
                 var identifierText = "an asset";
                 var fileContentText = $"This attachment was created for Asset Tag {serialNumberAssetTag}";
-                await Attachment.InsertAttachment(SystemArea.Asset, insertedAssetId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
-                await Attachment.InsertAttachment(SystemArea.Asset, insertedAssetId, AttachmentFileType.Text, identifierText, fileContentText, 2);
+                await Attachment.InsertAttachment(SystemArea.Asset, insertedAssetId.Value, AttachmentFileType.PDF, identifierText, fileContentText, 2);
+                await Attachment.InsertAttachment(SystemArea.Asset, insertedAssetId.Value, AttachmentFileType.Text, identifierText, fileContentText, 2);
             }
             else
             {

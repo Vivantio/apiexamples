@@ -25,13 +25,12 @@ internal class Client
             RecordTypeId = (int)RecordType.Client,
         };
 
-        int insertedClientId;
 
         var response = await ApiHelper.SendRequestAsync<InsertResponse, ClientInsertDto>("Client/Insert", client);
 
         if (response != null && response.Successful)
         {
-            insertedClientId = response?.InsertedItemId ?? 0;
+            var insertedClientId = new ClientId { Value = response.InsertedItemId };
 
             AnsiConsole.MarkupLine($"Client [blue]{reference}[/] was inserted. Adding Attachments...");
 
@@ -48,15 +47,15 @@ internal class Client
             foreach (var locationId in locationIds)
             {
                 var insertedAssetIds = await Asset.InsertCorporateAssets();
-                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), insertedClientId, SystemArea.Client);
-                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), locationId, SystemArea.Location);
+                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), insertedClientId.Value, SystemArea.Client);
+                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), locationId.Value, SystemArea.Location);
             }
 
             AnsiConsole.MarkupLine($"Assets for [blue]{reference}[/] were added. Adding Callers...");
 
             foreach (var locationId in locationIds)
             {
-                await Caller.InsertCallers(insertedClientId, domain, locationId);
+                await Caller.InsertCallers(insertedClientId, domain, locationId.Value);
             }
 
             AnsiConsole.MarkupLine($"Callers for [blue]{reference}[/] were added. That's it!");
@@ -70,15 +69,15 @@ internal class Client
         }
     }
 
-    private static async Task AddClientAttachments(int clientId, string reference)
+    private static async Task AddClientAttachments(ClientId clientId, string reference)
     {
         var identifierText = "a client";
         var fileContentText = $"This attachment was created for Client {reference}";
 
         var tasks = new List<Task>
             {
-                Attachment.InsertAttachment((int)SystemArea.Client, clientId, AttachmentFileType.PDF, identifierText, fileContentText, 2),
-                Attachment.InsertAttachment((int)SystemArea.Client, clientId, AttachmentFileType.Text, identifierText, fileContentText, 2)
+                Attachment.InsertAttachment((int)SystemArea.Client, clientId.Value, AttachmentFileType.PDF, identifierText, fileContentText, 2),
+                Attachment.InsertAttachment((int)SystemArea.Client, clientId.Value, AttachmentFileType.Text, identifierText, fileContentText, 2)
             };
 
         await Task.WhenAll(tasks);

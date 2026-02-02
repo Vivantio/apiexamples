@@ -2,7 +2,7 @@
 
 internal static class Caller
 {
-    public static async Task InsertCallers(int clientId, string clientDomain, int locationId, int numberToInsert = 2)
+    public static async Task InsertCallers(ClientId clientId, string clientDomain, int locationId, int numberToInsert = 2)
     {
         var random = RandomProvider.Instance;
         for (int i = 1; i < numberToInsert + 1; i++)
@@ -18,7 +18,7 @@ internal static class Caller
                 Email = email,
                 Phone = "01234 567890",
                 DomainLoginName = email,
-                ClientId = clientId,
+                ClientId = clientId.Value,
                 LocationId = locationId,
                 SelfServiceLoginEnabled = true,
                 Notes = RandomStringHelper.GetLoremIpsum(),
@@ -27,23 +27,23 @@ internal static class Caller
                 RecordTypeId = (int)RecordType.Caller,
             };
 
-            int insertedCallerId;
             var response = await ApiHelper.SendRequestAsync<InsertResponse, CallerDto>("Caller/Insert", caller);
 
             if (response != null && response.Successful)
             {
 
-                insertedCallerId = response?.InsertedItemId ?? 0;
+                var insertedCallerId = new CallerId { Value = response.InsertedItemId };
+
                 // Callers can have attachments
                 var identifierText = "a caller";
-                var fileContentText = $"This attachment was created for Client {name}";
-                await Attachment.InsertAttachment(SystemArea.Caller, insertedCallerId, AttachmentFileType.PDF, identifierText, fileContentText, 2);
-                await Attachment.InsertAttachment(SystemArea.Caller, insertedCallerId, AttachmentFileType.Text, identifierText, fileContentText, 2);
+                var fileContentText = $"This attachment was created for Caller {name}";
+                await Attachment.InsertAttachment(SystemArea.Caller, insertedCallerId.Value, AttachmentFileType.PDF, identifierText, fileContentText, 2);
+                await Attachment.InsertAttachment(SystemArea.Caller, insertedCallerId.Value, AttachmentFileType.Text, identifierText, fileContentText, 2);
 
                 // Callers can have assets but these also belong to the Client and Have a Location, so we insert personal assets and link them to the Client, Caller, and Location
                 var insertedAssetIds = await Asset.InsertPersonalAssets();
-                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), clientId, SystemArea.Client);
-                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), insertedCallerId, SystemArea.Caller);
+                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), clientId.Value, SystemArea.Client);
+                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), insertedCallerId.Value, SystemArea.Caller);
                 await Asset.InsertAssetReleation(insertedAssetIds.ToList(), locationId, SystemArea.Location);
             }
             else
