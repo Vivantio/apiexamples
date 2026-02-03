@@ -8,26 +8,22 @@ internal static class Location
         var locationIds = new List<LocationId>();
         for (int i = 1; i < numberToInsert + 1; i++)
         {
-            var randomLocationName = RandomStringHelper.GetRandomCityName(random);
-            var randomStrig = RandomStringHelper.GenerateRandomString(2, random);
-
-            var locationName = $"{randomLocationName}-{randomStrig}-{i}";
+            var locationName = Faker.Address.City();
             var location = new LocationDto
             {
                 Name = locationName,
                 ClientId = clientId.Value,
-                Address1 = "Address 1 text",
-                Address2 = "Address 2 text",
-                Address3 = "Address 3 text",
-                City = "City text",
-                County = "County text",
-                PostCode = "PostCode text",
-                Country = "Country text",
-                Phone = "01234 567890",
+                Address1 = Faker.Address.SecondaryAddress(),
+                Address2 = Faker.Address.StreetAddress(false),
+                Address3 = Faker.Address.StreetName(),
+                City = locationName,
+                County = Faker.Address.UsState(),
+                PostCode = Faker.Address.ZipCode(),
+                Country = "United States",
+                Phone = Faker.Phone.Number(),
                 Notes = RandomStringHelper.GetLoremIpsum(),
                 ExternalKey = $"ext-{locationName}".ToLower(),
                 ExternalSource = AppHelper.ExternalSource
-,
             };
 
             var response = await ApiHelper.SendRequestAsync<InsertResponse, LocationDto>("Location/Insert", location);

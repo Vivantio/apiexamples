@@ -89,7 +89,7 @@ internal static class Attachment
 
     public static byte[] CreateTextFile(string fileContentText)
     {
-        var output = fileContentText + Environment.NewLine + Environment.NewLine + RandomStringHelper.GetLoremIpsum();
+        var output = fileContentText + Environment.NewLine + Environment.NewLine + RandomStringHelper.GetLoremIpsum   ();
         return Encoding.UTF8.GetBytes(output);
     }
 }

@@ -6,10 +6,10 @@ internal class Client
     {
         var random = RandomProvider.Instance;
 
-        var companyName = RandomStringHelper.GetRandomCompanyName(random);
-        var reference = $"{companyName.Replace(" ", "")}-{RandomStringHelper.GenerateRandomString(2, random)}";
-        //var reference = "intentional duplicate for testing";
-        var domain = $"{companyName.ToLower().Replace(" ", "").Replace(".", "")}{RandomStringHelper.GetRandomTopLevelDomain(random)}";
+        var companyName = Faker.Company.Name().Replace(",", "");
+        var reference = $"{companyName.Replace(" ", ".")}-{RandomStringHelper.GenerateRandomString(2, random)}";
+        var domainName = companyName.ToLowerInvariant().Replace(" ", "").Replace(".", "");
+        var domain = $"{domainName}{RandomStringHelper.GetRandomTopLevelDomain(random)}";
 
         var client = new ClientInsertDto
         {
@@ -32,16 +32,16 @@ internal class Client
         {
             var insertedClientId = new ClientId { Value = response.InsertedItemId };
 
-            AnsiConsole.MarkupLine($"Client [blue]{reference}[/] was inserted. Adding Attachments...");
+            AnsiConsole.MarkupLine($"Client [blue]{companyName}[/] was inserted. Adding Attachments...");
 
             // Add PDF and text attachments to the newly created client
-            await AddClientAttachments(insertedClientId, reference);
+            await AddClientAttachments(insertedClientId, companyName);
 
-            AnsiConsole.MarkupLine($"Attachments for [blue]{reference}[/] were added. Adding Locations...");
+            AnsiConsole.MarkupLine($"Attachments for [blue]{companyName}[/] were added. Adding Locations...");
 
             var locationIds = await Location.InsertLocations(insertedClientId);
 
-            AnsiConsole.MarkupLine($"Locations for [blue]{reference}[/] were added. Adding Assets...");
+            AnsiConsole.MarkupLine($"Locations for [blue]{companyName}[/] were added. Adding Assets...");
 
             // Clients can have Assets, so we insert corporate assets and link them to the Client and Locations
             foreach (var locationId in locationIds)
@@ -51,14 +51,14 @@ internal class Client
                 await Asset.InsertAssetReleation(insertedAssetIds.ToList(), locationId.Value, SystemArea.Location);
             }
 
-            AnsiConsole.MarkupLine($"Assets for [blue]{reference}[/] were added. Adding Callers...");
+            AnsiConsole.MarkupLine($"Assets for [blue]{companyName}[/] were added. Adding Callers...");
 
             foreach (var locationId in locationIds)
             {
-                await Caller.InsertCallers(insertedClientId, domain, locationId.Value);
+                await Caller.InsertCallers(insertedClientId, domain, locationId);
             }
 
-            AnsiConsole.MarkupLine($"Callers for [blue]{reference}[/] were added. That's it!");
+            AnsiConsole.MarkupLine($"Callers for [blue]{companyName}[/] were added. That's it!");
             SpectreHelper.EnterToContinue();
         }
         else
@@ -69,10 +69,10 @@ internal class Client
         }
     }
 
-    private static async Task AddClientAttachments(ClientId clientId, string reference)
+    private static async Task AddClientAttachments(ClientId clientId, string companyName)
     {
         var identifierText = "a client";
-        var fileContentText = $"This attachment was created for Client {reference}";
+        var fileContentText = $"This attachment was created for Client {companyName}";
 
         var tasks = new List<Task>
             {

@@ -38,7 +38,6 @@ internal class Asset
         {
             var personalAsset = personalAssets[i];
             var serialNumberAssetTag = $"{personalAsset}-{randomBatchIdentifier}-{i + 1}";
-            //var serialNumberAssetTag = "intentional duplicate for testing";
             var randomMultiplier = random.Next(1, 100);
             var randomValue = random.Next(1, 10);
             var warrantyExpiry = randomValue == 1 ? (DateTime?)null : DateTime.Today.AddYears(1 + (i % 3)); // Randomly decide if the attachment is private

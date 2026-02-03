@@ -2,24 +2,22 @@
 
 internal static class Caller
 {
-    public static async Task InsertCallers(ClientId clientId, string clientDomain, int locationId, int numberToInsert = 2)
+    public static async Task InsertCallers(ClientId clientId, string clientDomain, LocationId locationId, int numberToInsert = 2)
     {
         var random = RandomProvider.Instance;
         for (int i = 1; i < numberToInsert + 1; i++)
         {
-            var randomStrig = RandomStringHelper.GenerateRandomString(1, random);
-            var name = $"{RandomStringHelper.GetRandomFirstName(random)} {randomStrig.ToUpper()} {RandomStringHelper.GetRandomLastName(random)}";
-            //var name = "intentional duplicate for testing";
+            var name = $"{Faker.Name.First()} {Faker.Name.Last()}";
             var email = $"{name.ToLower().Replace(" ", ".")}@{clientDomain}";
 
             var caller = new CallerDto
             {
                 Name = name,
                 Email = email,
-                Phone = "01234 567890",
+                Phone = Faker.Phone.Number(),
                 DomainLoginName = email,
                 ClientId = clientId.Value,
-                LocationId = locationId,
+                LocationId = locationId.Value,
                 SelfServiceLoginEnabled = true,
                 Notes = RandomStringHelper.GetLoremIpsum(),
                 ExternalKey = $"ext-{email}",
@@ -44,7 +42,7 @@ internal static class Caller
                 var insertedAssetIds = await Asset.InsertPersonalAssets();
                 await Asset.InsertAssetReleation(insertedAssetIds.ToList(), clientId.Value, SystemArea.Client);
                 await Asset.InsertAssetReleation(insertedAssetIds.ToList(), insertedCallerId.Value, SystemArea.Caller);
-                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), locationId, SystemArea.Location);
+                await Asset.InsertAssetReleation(insertedAssetIds.ToList(), locationId.Value, SystemArea.Location);
             }
             else
             {
