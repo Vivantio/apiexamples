@@ -7,7 +7,7 @@ internal class Client
         var random = RandomProvider.Instance;
 
         var companyName = Faker.Company.Name().Replace(",", "");
-        var reference = $"{companyName.Replace(" ", ".")}-{RandomStringHelper.GenerateRandomString(2, random)}";
+        var reference = $"{companyName.Replace(" ", "")}-{RandomStringHelper.GenerateRandomString(2, random)}";
         var domainName = companyName.ToLowerInvariant().Replace(" ", "").Replace(".", "");
         var domain = $"{domainName}{RandomStringHelper.GetRandomTopLevelDomain(random)}";
 
